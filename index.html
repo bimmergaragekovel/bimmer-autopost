@@ -1610,10 +1610,18 @@ async function saveRepair() {
   closeModal('repair-modal');
   toast('Ремонт збережено', 'success');
 
-  // Зберігаємо у фоні
-  api({ action: 'saveRepair', repair }).then(res => {
-    if (!res.ok) toast(res.error || 'Помилка синхронізації', 'error');
-    else localStorage.removeItem('bg_cache_v2');
+  // Зберігаємо і оновлюємо з сервера
+  api({ action: 'saveRepair', repair }).then(async res => {
+    if (!res.ok) {
+      toast(res.error || 'Помилка збереження', 'error');
+    } else {
+      localStorage.removeItem('bg_cache_v2');
+      // Підвантажуємо свіжі дані з сервера щоб отримати збережені works/codings
+      try {
+        const fresh = await api({ action: 'initData' });
+        if (fresh && fresh.ok) { applyData(fresh); saveCache(fresh); renderRepairs(); }
+      } catch(e) {}
+    }
   }).catch(() => {});
 }
 
