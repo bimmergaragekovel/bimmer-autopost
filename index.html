@@ -1611,7 +1611,14 @@ async function saveRepair() {
   toast('Ремонт збережено', 'success');
 
   // Зберігаємо і оновлюємо з сервера
+  console.log('Saving repair:', JSON.stringify({
+    id: repair.id,
+    works: repair.works,
+    codings: repair.codings,
+    worksTotal: repair.worksTotal
+  }));
   api({ action: 'saveRepair', repair }).then(async res => {
+    console.log('Server response:', JSON.stringify(res));
     if (!res.ok) {
       toast(res.error || 'Помилка збереження', 'error');
     } else {
