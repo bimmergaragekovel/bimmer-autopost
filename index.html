@@ -2,618 +2,2266 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0a0a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="BimmerPost">
-<title>BimmerGarage Poster</title>
-<link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BimmerGarage — СТО</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#00A1E4;--navy:#0033A0;--red:#E02020;--bg:#0a0a0a;--card:#1c1c1c;--border:#2a2a2a;--text:#f0f0f0;--muted:#777;--ok:#22c55e}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;overflow-x:hidden}
-header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px}
-.logo-stripe{width:4px;height:34px;background:linear-gradient(to bottom,var(--blue),var(--navy),var(--red));border-radius:2px;flex-shrink:0}
-header h1{font-family:'Rajdhani',sans-serif;font-size:21px;font-weight:700;letter-spacing:.05em;line-height:1}
-header h1 span{color:var(--blue)}
-header p{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
-.screen{display:none;padding:16px}.screen.active{display:block}
-.label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.section{margin-bottom:18px}
-.section-title{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:.05em;margin-bottom:12px}
-.divider{height:1px;background:var(--border);margin:20px 0}
-input[type=text],input[type=number],textarea,.settings-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 15px;color:var(--text);font-family:'Nunito',sans-serif;font-size:15px;outline:none;transition:border-color .2s;-webkit-appearance:none}
-input:focus,textarea:focus,.settings-input:focus{border-color:var(--blue)}
-textarea{resize:none;line-height:1.6}
-.price-wrap{position:relative}.price-wrap input{padding-right:50px}
-.price-currency{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;font-weight:600;pointer-events:none}
-.photo-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.photo-action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 10px;background:var(--card);border:1.5px dashed var(--border);border-radius:14px;cursor:pointer;transition:all .2s;color:var(--muted);font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;text-align:center}
-.photo-action-btn:active{border-color:var(--blue);color:var(--blue);background:rgba(0,161,228,.06)}
-.photo-action-btn .icon{font-size:26px}
-.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.media-thumb{aspect-ratio:1;border-radius:10px;overflow:hidden;position:relative;background:var(--card);border:1px solid var(--border)}
-.media-thumb img,.media-thumb video{width:100%;height:100%;object-fit:cover}
-.media-thumb .remove-btn{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,.75);border:none;border-radius:50%;color:white;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
-.media-thumb .type-badge{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.7);color:white;font-size:9px;padding:2px 6px;border-radius:8px}
-.photo-count{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
-.caption-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:14px;line-height:1.75;color:var(--text);min-height:80px;white-space:pre-wrap;position:relative}
-.caption-box.loading{animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.copy-btn{position:absolute;top:10px;right:10px;background:var(--border);border:none;border-radius:6px;padding:4px 10px;color:var(--muted);font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer}
-.copy-btn:active{background:var(--blue);color:white}
-.char-count{text-align:right;font-size:11px;color:var(--muted);margin-top:4px}
-.channels{display:flex;gap:8px;flex-wrap:wrap}
-.channel-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;user-select:none;font-family:'Nunito',sans-serif}
-.channel-btn.selected{border-color:var(--blue);color:var(--blue);background:rgba(0,161,228,.1)}
-.channel-btn .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-.btn-generate{width:100%;padding:15px;background:linear-gradient(135deg,var(--navy),var(--blue));border:none;border-radius:13px;color:white;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .1s}
-.btn-generate:active{transform:scale(.98);opacity:.9}.btn-generate:disabled{opacity:.45;cursor:not-allowed}
-.btn-post{width:100%;padding:15px;background:transparent;border:1.5px solid var(--blue);border-radius:13px;color:var(--blue);font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
-.btn-post:active{background:rgba(0,161,228,.12);transform:scale(.98)}.btn-post:disabled{opacity:.4;cursor:not-allowed}
-.btn-storage{width:100%;padding:13px;background:transparent;border:1.5px solid #29b6f6;border-radius:13px;color:#29b6f6;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
-.btn-storage:active{background:rgba(41,182,246,.1)}.btn-storage:disabled{opacity:.4;cursor:not-allowed}
-.btn-social{flex:1;padding:12px 8px;border:none;border-radius:12px;color:white;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
-.btn-social:active{opacity:.8}
-.btn-save{width:100%;padding:13px;background:var(--navy);border:none;border-radius:11px;color:white;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;margin-top:8px}
-.btn-secondary{width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.spinner{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
-.spinner.blue{border-color:rgba(0,161,228,.3);border-top-color:var(--blue)}
+/* ===================== RESET & VARIABLES ===================== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;
+  --bg2:#111;
+  --bg3:#141414;
+  --bg4:#1a1a1a;
+  --border:#1e1e1e;
+  --border2:#2a2a2a;
+  --red:#c00;
+  --red2:#e03030;
+  --blue:#0057b8;
+  --green:#1a7a4a;
+  --green2:#27c47a;
+  --amber:#EF9F27;
+  --text:#f5f5f5;
+  --text2:#c8c8c8;
+  --text3:#909090;
+  --text4:#707070;
+  --font:'Exo 2',Arial,sans-serif;
+  --radius:8px;
+  --radius2:10px;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+input,select,textarea,button{font-family:var(--font);font-size:14px}
+input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius);padding:8px 12px;color:var(--text);width:100%;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--red)}
+select option{background:var(--bg3)}
+textarea{resize:vertical;min-height:60px}
+a{color:inherit;text-decoration:none}
+
+/* ===================== AUTH ===================== */
+#auth-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.auth-box{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:40px 36px;width:360px;max-width:90vw}
+.auth-logo{text-align:center;margin-bottom:28px}
+.auth-logo-name{font-size:22px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.auth-logo-sub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:700;margin-top:3px}
+.auth-mstripe{display:flex;gap:4px;justify-content:center;margin-top:8px}
+.auth-mstripe i{display:block;width:28px;height:3px;border-radius:2px}
+.auth-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:16px;text-align:center}
+.auth-field{margin-bottom:12px}
+.auth-field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:block;margin-bottom:5px;font-weight:700}
+.auth-error{color:var(--red2);font-size:13px;margin-top:8px;text-align:center;min-height:18px}
+.auth-btn{width:100%;background:var(--red);color:#fff;border:none;padding:11px;border-radius:var(--radius);font-size:13px;font-weight:800;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;transition:background .2s}
+.auth-btn:hover{background:#a00}
+.auth-btn:disabled{background:#555;cursor:not-allowed}
+
+/* ===================== TOPBAR ===================== */
+#app{display:none}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.topbar-top{height:50px;display:flex;align-items:center;padding:0 14px;justify-content:space-between;gap:8px}
+.topbar-bottom{display:flex;align-items:center;padding:0 8px 6px;gap:4px;border-top:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.brand-text{}
+.brand-name{font-size:15px;font-weight:800;letter-spacing:.08em;color:#fff;text-transform:uppercase;line-height:1}
+.brand-sub{font-size:9px;letter-spacing:.15em;color:var(--red);text-transform:uppercase;font-weight:700;margin-top:2px}
+.mstripe{display:flex;gap:3px;margin-left:2px}
+.mstripe i{display:block;width:14px;height:3px;border-radius:1px}
+.nav{display:flex;gap:2px;flex:1}
+.nb{background:none;border:none;color:var(--text3);font-size:11px;font-weight:700;padding:6px 10px;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;border-bottom:2px solid transparent;transition:color .2s;white-space:nowrap}
+.nb:hover{color:var(--text)}
+.nb.active{color:#fff;border-bottom-color:var(--red)}
+.nb.hidden{display:none}
+.topbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.user-badge{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;display:none}
+.logout-btn{background:none;border:1px solid var(--border2);color:var(--text3);padding:5px 8px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.logout-btn:hover{border-color:var(--red);color:var(--red2)}
+.add-btn{background:var(--red);color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:background .2s;white-space:nowrap}
+.add-btn:hover{background:#a00}
+.add-btn.hidden{display:none}
+@media(min-width:640px){
+  .topbar{display:flex;align-items:center;padding:0 20px;height:54px}
+  .topbar-top{flex:none;padding:0;border:none;height:auto}
+  .topbar-bottom{display:none}
+  .topbar>.nav{display:flex;gap:2px;margin:0 12px}
+  .topbar-right{margin-left:auto}
+  .user-badge{display:block}
+  .nb{font-size:12px;padding:7px 12px}
+}
+/* mobile nav в нижньому рядку */
+@media(max-width:639px){
+  .topbar-top .nav{display:none}
+}
+
+/* ===================== MAIN ===================== */
+.main{padding:20px;max-width:1200px;margin:0 auto}
+
+/* ===================== FILTER ROW ===================== */
+.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:9px 14px;font-size:13px;color:var(--text2)}
+.filter-btns{display:flex;gap:6px}
+.fbadge{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border2);cursor:pointer;background:var(--bg3);color:var(--text3);transition:all .2s}
+.fbadge.active{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ===================== JOB CARDS ===================== */
+.jobs{display:flex;flex-direction:column;gap:10px}
+.job{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;display:grid;grid-template-columns:4px 1fr;transition:border-color .2s}
+.job:hover{border-color:var(--border2)}
+.job-accent{background:var(--red)}
+.job-accent.done{background:var(--green)}
+.job-inner{padding:14px 16px}
+.job-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px}
+.job-car{font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em}
+.job-plate{font-size:11px;color:var(--text4);margin-left:8px;font-weight:400;border:1px solid var(--border2);padding:2px 7px;border-radius:3px;letter-spacing:.05em}
+.job-r1-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.status{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:3px}
+.s-open{background:rgba(200,0,0,.1);color:#e05050;border:1px solid rgba(200,0,0,.2)}
+.s-done{background:rgba(26,122,74,.12);color:var(--green2);border:1px solid rgba(26,122,74,.22)}
+.job-r2{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.job-work{font-size:13px;color:var(--text3);flex:1}
+.job-price{font-size:17px;font-weight:800;color:#fff;white-space:nowrap}
+.job-r3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.job-meta{font-size:11px;color:var(--text4);display:flex;align-items:center;gap:4px}
+.job-meta svg{width:11px;height:11px;stroke:var(--text4);flex-shrink:0;fill:none;stroke-width:2}
+.divider{width:1px;height:10px;background:var(--border2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.chip{background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:4px 9px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px;cursor:pointer;transition:border-color .2s}
+.chip:hover{border-color:var(--border2)}
+.chip b{color:var(--text2);font-weight:600}
+.chip-secret{display:none}
+.chip.revealed .chip-secret{display:inline}
+.chip.revealed .chip-pub{display:none}
+.job-actions{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.ja-btn{background:none;border:1px solid var(--border2);color:var(--text3);padding:5px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;display:flex;align-items:center;gap:5px}
+.ja-btn:hover{border-color:var(--text3);color:var(--text)}
+.ja-btn.danger:hover{border-color:var(--red);color:var(--red2)}
+.ja-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* ===================== PART INLINE EDIT ===================== */
+.part-item{position:relative}
+.part-item-edit{display:none;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius);padding:10px;margin-top:6px}
+.part-item-edit.open{display:block}
+.part-edit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.part-edit-grid2{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+@media(max-width:500px){
+  .part-edit-grid{grid-template-columns:1fr 1fr}
+  .part-edit-grid2{grid-template-columns:1fr 1fr}
+}
+
+/* ===================== CARD EXPAND ===================== */
+.job-details{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.job-details.open{display:block}
+.job-detail-row{display:flex;gap:8px;margin-bottom:6px;font-size:13px}
+.job-detail-label{color:var(--text3);min-width:90px;flex-shrink:0;font-weight:600}
+.job-detail-val{color:var(--text)}
+.job-expand-btn{background:none;border:none;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;padding:0;display:flex;align-items:center;gap:4px;transition:color .2s}
+.job-expand-btn:hover{color:var(--text)}
+.job-expand-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;transition:transform .2s}
+.job-expand-btn.open svg{transform:rotate(180deg)}
+.empty{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty svg{width:48px;height:48px;stroke:var(--border2);fill:none;stroke-width:1.5;margin-bottom:12px}
+.empty p{font-size:13px}
+
+/* ===================== MODAL / FORM ===================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border);border-radius:14px;width:100%;max-width:700px;margin:auto}
+.modal-hdr{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
+.modal-close:hover{color:var(--text)}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+/* ===================== FORM ELEMENTS ===================== */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.fw{grid-column:1/-1}
+.fl{display:flex;flex-direction:column;gap:5px}
+.fl label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:700}
+.btn-p{background:var(--red);color:#fff;border:none;padding:9px 20px;border-radius:var(--radius);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:background .2s}
+.btn-p:hover{background:#a00}
+.btn-p.sm{padding:7px 14px;font-size:11px}
+.btn-s{background:none;border:1px solid var(--border2);color:var(--text2);padding:9px 20px;border-radius:var(--radius);font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.btn-s:hover{border-color:var(--text3)}
+.btn-d{background:none;border:1px solid var(--border2);color:var(--text3);padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-d:hover{border-color:var(--red);color:var(--red2)}
+.toggle-btns{display:flex;border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden}
+.tb{padding:7px 12px;font-size:12px;font-weight:700;border:none;background:none;cursor:pointer;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;transition:all .2s}
+.tb.active{background:var(--red);color:#fff}
+
+/* ===================== PARTS SECTION IN FORM ===================== */
+.parts-section{border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:4px}
+.parts-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:700;margin-bottom:12px}
+.part-add-grid{display:grid;grid-template-columns:1fr 90px;gap:10px;margin-bottom:10px}
+.part-add-grid2{display:grid;grid-template-columns:70px 100px auto 90px 90px;gap:8px;align-items:end;margin-bottom:8px}
+.mu-preview{font-size:12px;color:var(--text3);margin-top:4px;min-height:16px}
+.parts-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.part-item{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.part-item-name{color:var(--text);flex:1}
+.part-item-unit{color:var(--text3);font-size:11px;margin:0 8px}
+.part-item-price{color:var(--text2);font-weight:600;margin-right:8px}
+.form-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.form-total-label{font-size:13px;color:var(--text3)}
+.form-total-val{font-size:20px;font-weight:800;color:#fff}
+
+/* ===================== STATISTICS ===================== */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.kpi{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.red::before{background:var(--red)}
+.kpi.blue::before{background:var(--blue)}
+.kpi.green::before{background:var(--green)}
+.kpi.amber::before{background:var(--amber)}
+.kpi.gray::before{background:var(--border2)}
+.kpi-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.kpi-val{font-size:24px;font-weight:800;line-height:1;color:#fff}
+.kpi-val.red{color:var(--red2)}
+.kpi-val.blue{color:#4d9fd6}
+.kpi-val.green{color:var(--green2)}
+.kpi-val.amber{color:var(--amber)}
+.kpi-sub{font-size:11px;color:var(--text4);margin-top:5px}
+
+.period-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.period-row label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:700}
+.period-row input{width:140px}
+
+.stat-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:16px;margin-bottom:12px}
+.stat-panel-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.stat-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
+.stat-row:last-child{border-bottom:none}
+.stat-name{font-size:13px;color:var(--text2);flex:1}
+.stat-track{width:100px;height:3px;background:var(--border2);border-radius:2px;flex-shrink:0}
+.stat-fill{height:3px;border-radius:2px;background:var(--blue)}
+.stat-val{font-size:13px;font-weight:700;color:var(--text);min-width:60px;text-align:right}
+
+.parts-stat-table{width:100%}
+.pst-head{display:grid;grid-template-columns:1fr 80px 100px 100px;gap:8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:700;padding:0 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.pst-row{display:grid;grid-template-columns:1fr 80px 100px 100px;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
+.pst-row:last-child{border-bottom:none}
+.pst-row span:not(:first-child){text-align:right}
+.pst-row span:nth-child(2){font-weight:700;color:#fff}
+.pst-row span:nth-child(3){color:var(--text3)}
+.pst-row span:nth-child(4){color:var(--green2);font-weight:700}
+
+/* ===================== SETTINGS ===================== */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.settings-grid{grid-template-columns:1fr}}
+.settings-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius2);padding:16px}
+.settings-panel.full{grid-column:1/-1}
+.sp-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.sp-item{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;font-size:13px}
+.sp-item-info{}
+.sp-item-name{color:var(--text);font-weight:600}
+.sp-item-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.sp-add{display:flex;gap:8px;margin-top:10px}
+.sp-add input{flex:1}
+
+.works-table{width:100%}
+.wt-head{display:none}
+.wt-row{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:var(--bg4)}
+.wt-row:last-child{margin-bottom:0}
+.wt-row-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wt-row input{padding:7px 10px;font-size:13px}
+/* Parts catalog */
+.pt-head{display:none}
+.pt-row{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;background:var(--bg4)}
+.pt-row:last-child{margin-bottom:0}
+.pt-row-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pt-row-name{font-weight:700;font-size:14px;flex:1}
+.pt-row-unit{font-size:11px;color:var(--text3);background:var(--bg);border:1px solid var(--border2);padding:2px 8px;border-radius:4px}
+.pt-row-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pt-field{display:flex;flex-direction:column;gap:4px}
+.pt-field label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:700}
+.pt-field input{padding:7px 10px;font-size:13px;width:100%}
+.pt-markup-wrap{display:flex;gap:4px}
+.pt-markup-wrap input{flex:1;min-width:0}
+
+.users-table{width:100%}
+.ut-head{display:grid;grid-template-columns:1fr 100px 120px 40px;gap:8px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:700;padding:0 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.ut-row{display:grid;grid-template-columns:1fr 100px 120px 40px;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:center}
+.ut-row:last-child{border-bottom:none}
+.role-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em}
+.role-admin{background:rgba(200,0,0,.12);color:var(--red2);border:1px solid rgba(200,0,0,.2)}
+.role-master{background:rgba(0,87,184,.12);color:#4d9fd6;border:1px solid rgba(0,87,184,.2)}
+.role-viewer{background:rgba(26,122,74,.1);color:var(--green2);border:1px solid rgba(26,122,74,.2)}
+
+/* ===================== LOADER ===================== */
+.loader{position:fixed;inset:0;background:rgba(13,13,13,.8);z-index:500;display:none;align-items:center;justify-content:center}
+.loader.show{display:flex}
+.loader-spin{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.upload-progress{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:none}
-.upload-progress.show{display:block}
-.progress-label{font-size:13px;color:var(--muted);margin-bottom:8px}
-.progress-bar-wrap{background:var(--border);border-radius:4px;height:4px;overflow:hidden}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--navy),var(--blue));border-radius:4px;transition:width .3s;width:0%}
-.upload-files-list{margin-top:10px}
-.upload-file-item{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:4px}
-.upload-file-item.done{color:var(--ok)}.upload-file-item.error{color:var(--red)}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ok);color:white;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
-.toast.error{background:var(--red)}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.config-import-box{background:var(--card);border:2px dashed var(--border);border-radius:14px;padding:20px;text-align:center;margin-bottom:14px;cursor:pointer;transition:border-color .2s}
-.config-import-box:active{border-color:var(--blue)}
-.config-import-box .icon{font-size:32px;margin-bottom:6px}
-.config-import-box p{font-size:13px;color:var(--muted);line-height:1.5}
-.config-import-box strong{color:var(--text)}
-.config-status{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px}
-.config-status-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
-.config-status-row:last-child{border-bottom:none}
-.config-status-row .key-name{color:var(--muted)}
-.key-val.ok{color:var(--ok);font-weight:600}.key-val.missing{color:var(--red);font-weight:600}
-.config-warning{background:rgba(224,32,32,.08);border:1px solid rgba(224,32,32,.2);border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#ff8080;line-height:1.6}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px;text-align:center}
-.stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--blue);line-height:1}
-.stat-label{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
-.stat-card.green .stat-num{color:var(--ok)}.stat-card.navy .stat-num{color:#4488ff}
-.week-chart{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px;margin-bottom:14px}
-.week-bars{display:flex;align-items:flex-end;gap:6px;height:80px;margin-bottom:6px}
-.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center}
-.week-bar{width:100%;border-radius:4px 4px 0 0;background:var(--navy);min-height:2px}
-.week-bar.today{background:var(--blue)}
-.recent-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px}
-.recent-item img{width:44px;height:44px;object-fit:cover;border-radius:7px;flex-shrink:0}
-.recent-meta{flex:1;min-width:0}
-.recent-meta strong{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.recent-meta span{font-size:10px;color:var(--muted)}
-.ch-badge{font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(0,161,228,.12);color:var(--blue);font-weight:700;display:inline-block;margin-right:3px;margin-top:3px}
-.settings-row{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:14px;margin-bottom:8px;display:flex;flex-direction:column}
-.settings-row label{font-size:13px;font-weight:600}
-.settings-row p{font-size:11px;color:var(--muted);margin-top:2px}
-.settings-input{background:var(--bg)!important;border:1px solid var(--border)!important;border-radius:8px!important;padding:9px 12px!important;font-size:13px!important;margin-top:8px}
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-state .icon{font-size:40px;margin-bottom:10px}
-.empty-state p{font-size:13px;line-height:1.6}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
-.nav-btn{flex:1;padding:11px 4px 9px;border:none;background:none;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .2s}
-.nav-btn.active{color:var(--blue)}
-.nav-btn svg{width:22px;height:22px}
-.nav-btn span{font-size:10px;font-family:'Nunito',sans-serif;font-weight:600;letter-spacing:.04em}
+
+/* ===================== TOAST ===================== */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 20px;font-size:13px;font-weight:600;z-index:600;opacity:0;transition:all .3s;white-space:nowrap;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{border-color:var(--green);color:var(--green2)}
+.toast.error{border-color:var(--red);color:var(--red2)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:640px){
+  .topbar{padding:0 12px}
+  .brand-name{font-size:14px}
+  .nav .nb{padding:6px 8px;font-size:11px}
+  .main{padding:12px}
+  .fg{grid-template-columns:1fr}
+  .fg3{grid-template-columns:1fr}
+  .part-add-grid2{grid-template-columns:1fr 1fr}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .modal{margin:0;border-radius:14px 14px 0 0;margin-top:auto}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .pst-head,.pst-row{grid-template-columns:1fr 60px 80px}
+  .pst-head span:nth-child(3),.pst-row span:nth-child(3){display:none}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo-stripe"></div>
-  <div>
-    <h1>BIMMER<span>POST</span></h1>
-    <p>BimmerGarage · Ковель</p>
-  </div>
-</header>
+
+<!-- LOADER -->
+<div class="loader" id="loader"><div class="loader-spin"></div></div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- POST -->
-<div class="screen active" id="screen-post">
-  <div class="section">
-    <div class="label">Медіафайли</div>
-    <div class="photo-actions">
-      <div class="photo-action-btn" onclick="document.getElementById('cameraInput').click()"><span class="icon">📷</span>Зробити фото</div>
-      <div class="photo-action-btn" onclick="document.getElementById('galleryInput').click()"><span class="icon">🖼️</span>Фото з галереї</div>
-      <div class="photo-action-btn" onclick="document.getElementById('cameraVideoInput').click()"><span class="icon">⏺️</span>Зняти відео</div>
-      <div class="photo-action-btn" onclick="document.getElementById('videoInput').click()"><span class="icon">🎥</span>Відео з галереї</div>
-    </div>
-    <div class="photo-grid" id="photoGrid"></div>
-    <div class="photo-count" id="photoCount" style="display:none"></div>
-    <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
-    <input type="file" id="galleryInput" accept="image/*" multiple style="display:none">
-    <input type="file" id="cameraVideoInput" accept="video/*" capture="environment" style="display:none">
-    <input type="file" id="videoInput" accept="video/*" multiple style="display:none">
-  </div>
-  <div class="section">
-    <div class="label">Що це за деталь?</div>
-    <input type="text" id="partName" placeholder="напр. Фара права BMW F30 2012-2015" maxlength="80">
-  </div>
-  <div class="section">
-    <div class="label">Ціна</div>
-    <div class="price-wrap">
-      <input type="number" id="partPrice" placeholder="0">
-      <span class="price-currency">грн</span>
-    </div>
-  </div>
-  <div class="section">
-    <div class="label">Додаткові деталі (необов'язково)</div>
-    <textarea id="partDetails" rows="2" placeholder="стан, особливості, артикул..."></textarea>
-  </div>
-  <div class="section">
-    <button class="btn-generate" id="btnGenerate" onclick="generateCaption()">
-      <div class="spinner" id="genSpinner"></div>
-      <span id="genBtnText">✦ Згенерувати опис</span>
-    </button>
-  </div>
-  <div id="resultSection" style="display:none">
-    <div class="section">
-      <div class="label">Згенерований опис</div>
-      <textarea id="captionText" style="width:100%;min-height:120px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:14px;line-height:1.75;color:var(--text);font-family:'Nunito',sans-serif;resize:none;outline:none;transition:border-color .2s;display:block;box-sizing:border-box" oninput="onCaptionEdit()" placeholder="Опис з'явиться тут..."></textarea>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
-        <span style="font-size:11px;color:var(--muted)" id="editHint"></span>
-        <span style="font-size:11px;color:var(--muted)" id="charCount"></span>
-      </div>
-      <button class="copy-btn" style="position:static;margin-top:6px;width:100%;padding:8px" onclick="copyCaption()">📋 Копіювати опис</button>
-    </div>
-    <div class="section">
-      <div class="label">Поділитись вручну</div>
-      <div style="display:flex;gap:8px">
-        <button class="btn-social" style="background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)" onclick="copyForIG()">📸 Instagram</button>
-        <button class="btn-social" style="background:#1877f2" onclick="copyForFB()">👍 Facebook</button>
-      </div>
-      <p style="font-size:11px;color:var(--muted);margin-top:6px;text-align:center">Копіює опис — відкрий додаток — вставляй</p>
-    </div>
-    <div class="section">
-      <div class="label">Зберегти у сховище (приватний канал)</div>
-      <button class="btn-storage" id="btnStorage" onclick="uploadToStorage()">
-        <div class="spinner" id="storageSpinner"></div>
-        <span id="storageBtnText">✈️ Зберегти в Telegram-сховище</span>
-      </button>
-      <div class="upload-progress" id="uploadProgress">
-        <div class="progress-label" id="progressLabel">Завантажую...</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-        <div class="upload-files-list" id="uploadFilesList"></div>
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-name">BimmerGarage</div>
+      <div class="auth-logo-sub">СТО · Ковель</div>
+      <div class="auth-mstripe">
+        <i style="background:#0057b8"></i>
+        <i style="background:#c00"></i>
+        <i style="background:#0057b8"></i>
       </div>
     </div>
-    <div class="section">
-      <div class="label">Опублікувати в Telegram</div>
-      <div class="channels">
-        <button class="channel-btn selected" data-channel="telegram" onclick="toggleChannel(this)"><span class="dot"></span> @bimmergarage</button>
+
+
+
+    <div class="auth-title">Вхід до системи</div>
+    <div class="auth-field">
+      <label>Логін</label>
+      <input type="text" id="auth-login" placeholder="Введіть логін" autocomplete="username">
+    </div>
+    <div class="auth-field">
+      <label>Пароль</label>
+      <input type="password" id="auth-pass" placeholder="Введіть пароль" autocomplete="current-password">
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <button class="auth-btn" id="auth-btn" onclick="doLogin()">Увійти</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-top">
+      <div class="brand">
+        <div class="brand-text">
+          <div class="brand-name">BimmerGarage</div>
+          <div class="brand-sub">СТО · Ковель</div>
+        </div>
+        <div class="mstripe">
+          <i style="background:#0057b8"></i>
+          <i style="background:#c00"></i>
+          <i style="background:#0057b8"></i>
+        </div>
+      </div>
+      <!-- Desktop nav -->
+      <div class="nav" id="nav-desktop">
+        <button class="nb active" onclick="showTab('repairs',this)" id="tab-repairs">Ремонти</button>
+        <button class="nb hidden" onclick="showTab('stats',this)" id="tab-stats">Статистика</button>
+        <button class="nb hidden" onclick="showTab('settings',this)" id="tab-settings">Налаштування</button>
+      </div>
+      <div class="topbar-right">
+        <span class="user-badge" id="user-badge"></span>
+        <button class="logout-btn" onclick="doLogout()">Вийти</button>
+        <button class="add-btn hidden" id="btn-add-repair" onclick="openRepairModal()">+ Новий</button>
       </div>
     </div>
-    <div class="section">
-      <button class="btn-post" id="btnPost" onclick="publishNow()">
-        <div class="spinner blue" id="postSpinner"></div>
-        <span id="postBtnText">⚡ Опублікувати зараз</span>
-      </button>
+    <!-- Mobile nav bottom row -->
+    <div class="topbar-bottom" id="nav-mobile">
+      <button class="nb active" onclick="showTab('repairs',this)" id="tab-repairs-m">Ремонти</button>
+      <button class="nb hidden" onclick="showTab('stats',this)" id="tab-stats-m">Статистика</button>
+      <button class="nb hidden" onclick="showTab('settings',this)" id="tab-settings-m">Налаштування</button>
+    </div>
+  </div>
+
+  <!-- REPAIRS TAB -->
+  <div class="main" id="repairs-tab">
+    <div class="filter-row">
+      <input class="search" type="text" placeholder="Пошук по авто, клієнту, VIN..." id="search-input" oninput="renderRepairs()">
+      <div class="filter-btns">
+        <button class="fbadge active" onclick="setFilter('all',this)">Всі</button>
+        <button class="fbadge" onclick="setFilter('open',this)">Відкриті</button>
+        <button class="fbadge" onclick="setFilter('done',this)">Завершені</button>
+      </div>
+    </div>
+    <div class="jobs" id="jobs-list"></div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="main hidden" id="stats-tab">
+    <div class="kpi-row" id="kpi-row"></div>
+    <div class="period-row">
+      <label>З</label>
+      <input type="date" id="stat-from">
+      <label>По</label>
+      <input type="date" id="stat-to">
+      <button class="btn-p sm" onclick="renderStats()">Оновити</button>
+    </div>
+    <div class="settings-grid">
+      <div class="stat-panel">
+        <div class="stat-panel-title">Роботи — топ</div>
+        <div id="stat-works"></div>
+      </div>
+      <div class="stat-panel">
+        <div class="stat-panel-title">Постачальники (закупівлі)</div>
+        <div id="stat-suppliers"></div>
+      </div>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-panel-title">Фінанси по роботах (завершені)</div>
+      <div id="stat-works-finance"></div>
+    </div>
+    <div class="stat-panel" style="margin-top:12px">
+      <div class="stat-panel-title">Витрати запчастин за період</div>
+      <div id="stat-parts"></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="main hidden" id="settings-tab">
+    <div class="settings-grid">
+      <!-- Постачальники -->
+      <div class="settings-panel">
+        <div class="sp-title">Постачальники</div>
+        <div id="sup-list"></div>
+        <div class="sp-add">
+          <input type="text" id="new-sup" placeholder="Назва постачальника">
+          <button class="btn-p sm" onclick="addSupplier()">+ Додати</button>
+        </div>
+      </div>
+      <!-- Запчастини -->
+      <div class="settings-panel full">
+        <div class="sp-title">Каталог запчастин</div>
+        <div class="pt-head">
+          <span>Назва</span><span>Од.</span><span>Прих. ціна</span><span>Націнка</span><span>Продаж</span><span></span>
+        </div>
+        <div id="parts-list"></div>
+        <div style="border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-top:10px">
+          <div style="display:grid;grid-template-columns:1fr 120px;gap:8px;margin-bottom:8px">
+            <div class="fl"><label>Назва запчастини</label><input type="text" id="new-part-name" placeholder="Моторна олива 5W-30"></div>
+            <div class="fl"><label>Одиниця</label>
+              <div class="toggle-btns">
+                <button class="tb active" onclick="setPartUnit('шт',this)">шт</button>
+                <button class="tb" onclick="setPartUnit('л',this)">л</button>
+                <button class="tb" onclick="setPartUnit('кг',this)">кг</button>
+                <button class="tb" onclick="setPartUnit('м',this)">м</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end">
+            <div class="fl"><label>Прихідна ціна (грн)</label><input type="number" id="new-part-cost" placeholder="0" min="0" oninput="previewNewPartSale()"></div>
+            <div class="fl">
+              <label>Тип націнки</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <div class="toggle-btns">
+                  <button class="tb active" id="np-mu-pct" onclick="setNewPartMuType('pct')">%</button>
+                  <button class="tb" id="np-mu-fix" onclick="setNewPartMuType('fix')">грн</button>
+                </div>
+                <input type="number" id="new-part-markup" placeholder="0" min="0" oninput="previewNewPartSale()" style="flex:1">
+              </div>
+            </div>
+            <div class="fl"><label>Ціна продажу (грн)</label>
+              <input type="number" id="new-part-sale-preview" placeholder="0" readonly style="background:var(--bg);color:var(--green2);font-weight:700">
+            </div>
+            <button class="btn-p sm" style="align-self:end" onclick="addPart()">+ Додати</button>
+          </div>
+        </div>
+      </div>
+      <!-- Кодування -->
+      <div class="settings-panel full">
+        <div class="sp-title">Каталог кодувань</div>
+        <div class="wt-head">
+          <span>Назва кодування</span><span>Роздрібна (грн)</span><span>Собівартість (грн)</span><span></span>
+        </div>
+        <div id="codings-list"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <input type="text" id="new-coding-name" placeholder="Назва кодування" style="flex:2;min-width:150px">
+          <input type="number" id="new-coding-retail" placeholder="Роздрібна" style="width:120px">
+          <input type="number" id="new-coding-cost" placeholder="Собівартість" style="width:120px">
+          <button class="btn-p sm" onclick="addCoding()">+ Додати</button>
+        </div>
+      </div>
+
+      <!-- Каталог робіт -->
+      <div class="settings-panel full">
+        <div class="sp-title">Каталог робіт</div>
+        <div class="wt-head">
+          <span>Назва роботи</span><span>Роздрібна (грн)</span><span>Собівартість (грн)</span><span></span>
+        </div>
+        <div id="works-list"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <input type="text" id="new-work-name" placeholder="Назва роботи" style="flex:2;min-width:150px">
+          <input type="number" id="new-work-retail" placeholder="Роздрібна" style="width:120px">
+          <input type="number" id="new-work-cost" placeholder="Собівартість" style="width:120px">
+          <button class="btn-p sm" onclick="addWork()">+ Додати</button>
+        </div>
+      </div>
+      <!-- Користувачі -->
+      <div class="settings-panel full" id="users-panel">
+        <div class="sp-title">Користувачі</div>
+        <div class="ut-head">
+          <span>Логін</span><span>Роль</span><span>Останній вхід</span><span></span>
+        </div>
+        <div id="users-list"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <input type="text" id="new-user-login" placeholder="Логін" style="flex:1;min-width:100px">
+          <input type="password" id="new-user-pass" placeholder="Пароль" style="flex:1;min-width:100px">
+          <select id="new-user-role" style="width:130px">
+            <option value="master">Майстер</option>
+            <option value="viewer">Перегляд</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button class="btn-p sm" onclick="addUser()">+ Додати</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="screen" id="screen-stats">
-  <div class="section-title">Статистика</div>
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Всього постів</div></div>
-    <div class="stat-card green"><div class="stat-num" id="stat-today">0</div><div class="stat-label">Сьогодні</div></div>
-    <div class="stat-card navy"><div class="stat-num" id="stat-week">0</div><div class="stat-label">Тиждень</div></div>
-    <div class="stat-card"><div class="stat-num" id="stat-month">0</div><div class="stat-label">Місяць</div></div>
-  </div>
-  <div class="section">
-    <div class="label">Останні 7 днів</div>
-    <div class="week-chart">
-      <div class="week-bars" id="weekBars"></div>
-      <div style="display:flex;gap:6px" id="weekDays"></div>
+<!-- REPAIR MODAL -->
+<div class="modal-overlay" id="repair-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <span class="modal-title" id="modal-title">Новий ремонт</span>
+      <button class="modal-close" onclick="closeModal('repair-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <div class="fl"><label>Авто (марка, модель)</label><input type="text" id="f-car" placeholder="BMW F10 528i"></div>
+        <div class="fl"><label>VIN / Держ. номер</label><input type="text" id="f-vin" placeholder="АА1234ВВ"></div>
+        <div class="fl"><label>Клієнт</label><input type="text" id="f-client" placeholder="Прізвище ім'я"></div>
+        <div class="fl"><label>Телефон</label><input type="tel" id="f-phone" placeholder="+380..."></div>
+        <div class="fl"><label>Дата</label><input type="date" id="f-date"></div>
+        <div class="fl"><label>Статус</label>
+          <select id="f-status">
+            <option value="open">Відкритий</option>
+            <option value="done">Завершений</option>
+          </select>
+        </div>
+        <div class="fl fw"><label>Нотатки</label><textarea id="f-notes" placeholder="Опис несправності, коментар майстра..."></textarea></div>
+      </div>
+
+      <!-- WORKS BLOCK -->
+      <div class="parts-section" style="margin-bottom:10px">
+        <div class="parts-title">Роботи</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div class="fl fw"><label>З каталогу</label>
+            <select id="f-work-sel" onchange="onWorkSelChange()">
+              <option value="">— вибрати —</option>
+            </select>
+          </div>
+          <div class="fl fw"><label>Або вручну</label>
+            <input type="text" id="f-work-custom" placeholder="Назва роботи">
+          </div>
+          <div class="fl"><label>Роздрібна (грн)</label>
+            <input type="number" id="f-work-retail" placeholder="0" min="0">
+          </div>
+          <div class="fl admin-only"><label>Собівартість (грн)</label>
+            <input type="number" id="f-work-cost" placeholder="0" min="0">
+          </div>
+        </div>
+        <button class="btn-p sm" style="width:100%;margin-bottom:10px" onclick="addFormWork()">+ Додати роботу</button>
+        <div id="form-works-list"></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding-top:6px;border-top:0.5px solid var(--border)">
+          <span style="color:var(--text3)">Сума робіт:</span>
+          <span id="form-works-total" style="font-weight:700">0 грн</span>
+        </div>
+      </div>
+
+      <!-- CODINGS BLOCK -->
+      <div class="parts-section" style="margin-bottom:10px">
+        <div class="parts-title">Кодування</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div class="fl fw"><label>З каталогу</label>
+            <select id="f-coding-sel" onchange="onCodingSelChange()">
+              <option value="">— вибрати —</option>
+            </select>
+          </div>
+          <div class="fl fw"><label>Або вручну</label>
+            <input type="text" id="f-coding-custom" placeholder="Назва кодування">
+          </div>
+          <div class="fl"><label>Роздрібна (грн)</label>
+            <input type="number" id="f-coding-retail" placeholder="0" min="0">
+          </div>
+          <div class="fl admin-only"><label>Собівартість (грн)</label>
+            <input type="number" id="f-coding-cost" placeholder="0" min="0">
+          </div>
+        </div>
+        <button class="btn-p sm" style="width:100%;margin-bottom:10px" onclick="addFormCoding()">+ Додати кодування</button>
+        <div id="form-codings-list"></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding-top:6px;border-top:0.5px solid var(--border)">
+          <span style="color:var(--text3)">Сума кодування:</span>
+          <span id="form-codings-total" style="font-weight:700">0 грн</span>
+        </div>
+      </div>
+
+      <!-- PARTS -->
+      <div class="parts-section">
+        <div class="parts-title">Запчастини та матеріали</div>
+        <div class="part-add-grid">
+          <div class="fl"><label>З каталогу</label>
+            <select id="p-cat-sel" onchange="onPartCatSelect()">
+              <option value="">— вибрати —</option>
+            </select>
+          </div>
+          <div class="fl"><label>Або вручну</label><input type="text" id="p-name-custom" placeholder="Назва"></div>
+        </div>
+        <div class="part-add-grid2">
+          <div class="fl"><label>Кількість</label><input type="number" id="p-qty" value="1" min="0.01" step="0.1"></div>
+          <div class="fl"><label>Одиниця</label><input type="text" id="p-unit-disp" readonly style="background:var(--bg);color:var(--text3)"></div>
+          <div class="fl"><label>Постачальник</label><select id="p-supplier"></select></div>
+          <div class="fl admin-only"><label>Прих. ціна (грн)</label><input type="number" id="p-cost" placeholder="0" min="0" oninput="calcPartSale()"></div>
+          <div class="fl admin-only"><label>Тип націнки</label>
+            <div class="toggle-btns">
+              <button class="tb active" id="mu-pct" onclick="setMuType('pct')">%</button>
+              <button class="tb" id="mu-fix" onclick="setMuType('fix')">грн</button>
+            </div>
+          </div>
+        </div>
+        <div class="fg" style="margin-bottom:8px">
+          <div class="fl admin-only"><label id="mu-label">Націнка (%)</label><input type="number" id="p-markup" placeholder="0" min="0" oninput="calcPartSale()"></div>
+          <div class="fl"><label>Ціна продажу (грн)</label><input type="number" id="p-sale" placeholder="0" min="0" oninput="calcPartMargin()"></div>
+        </div>
+        <div class="mu-preview" id="mu-preview"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="btn-p sm" onclick="addFormPart()">+ Додати запчастину</button>
+        </div>
+        <div class="parts-list" id="form-parts-list"></div>
+        <div class="form-total">
+          <span class="form-total-label">Разом (роботи + кодування + запчастини):</span>
+          <span class="form-total-val" id="form-total">0 грн</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-s" onclick="closeModal('repair-modal')">Скасувати</button>
+      <button class="btn-p" onclick="saveRepair()">Зберегти</button>
     </div>
   </div>
-  <div class="section">
-    <div class="label">Останні пости</div>
-    <div id="recentList"><div class="empty-state"><div class="icon">📋</div><p>Ще немає постів.</p></div></div>
-  </div>
 </div>
-
-<!-- SETTINGS -->
-<div class="screen" id="screen-settings">
-  <div class="section-title">Налаштування</div>
-  <div class="config-warning">⚠️ Файл config.json містить секретні ключі. Не завантажуй на GitHub і нікому не пересилай.</div>
-  <div class="label">Завантажити конфіг</div>
-  <div class="config-import-box" onclick="document.getElementById('configFileInput').click()">
-    <div class="icon">📄</div>
-    <p><strong>Натисни щоб вибрати bimmer-config.json</strong><br>Всі ключі заповняться автоматично</p>
-  </div>
-  <input type="file" id="configFileInput" accept=".json" style="display:none">
-  <div class="label">Статус ключів</div>
-  <div class="config-status">
-    <div class="config-status-row"><span class="key-name">Anthropic API</span><span class="key-val missing" id="st-anthropic">❌ Не вказано</span></div>
-    <div class="config-status-row"><span class="key-name">Telegram бот</span><span class="key-val missing" id="st-tg">❌ Не вказано</span></div>
-    <div class="config-status-row"><span class="key-name">Канал @bimmergarage</span><span class="key-val missing" id="st-channel">❌ Не вказано</span></div>
-    <div class="config-status-row"><span class="key-name">Telegram сховище</span><span class="key-val missing" id="st-storage">❌ Не вказано</span></div>
-  </div>
-  <div class="divider"></div>
-  <div class="label">Зберегти конфіг</div>
-  <button class="btn-secondary" onclick="exportConfig()" style="margin-bottom:20px">💾 Завантажити bimmer-config.json</button>
-  <div class="divider"></div>
-  <div class="section-title">Ручне введення</div>
-  <div class="settings-row">
-    <label>Anthropic API Key</label>
-    <p>Для генерації описів через Claude</p>
-    <input class="settings-input" type="password" id="set-anthropic" placeholder="sk-ant-...">
-  </div>
-  <div class="settings-row">
-    <label>Telegram Bot Token</label>
-    <input class="settings-input" type="password" id="set-tg-token" placeholder="123456:ABC...">
-  </div>
-  <div class="settings-row">
-    <label>Telegram Channel ID</label>
-    <p>Публічний канал для постів</p>
-    <input class="settings-input" type="text" id="set-tg-channel" placeholder="@bimmergarage">
-  </div>
-  <div class="settings-row">
-    <label>Storage Channel ID</label>
-    <p>Приватний канал-сховище для фото і відео</p>
-    <input class="settings-input" type="text" id="set-tg-storage" placeholder="-1003948666259">
-  </div>
-  <div class="settings-row">
-    <label>Підпис у кожному пості</label>
-    <input class="settings-input" type="text" id="set-footer" value="📍 Ковель | BimmerGarage | t.me/bimmergarage">
-  </div>
-  <button class="btn-save" onclick="saveSettings()">💾 Зберегти</button>
-</div>
-
-<nav class="bottom-nav">
-  <button class="nav-btn active" onclick="switchTab('post',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-    <span>Пост</span>
-  </button>
-  <button class="nav-btn" onclick="switchTab('stats',this);renderStats()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-    <span>Статистика</span>
-  </button>
-  <button class="nav-btn" onclick="switchTab('settings',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    <span>Налаштування</span>
-  </button>
-</nav>
 
 <script>
-let photos=[],mediaFiles=[],generatedCaption='';
+// ============================================================
+// CONFIG — замін на свій URL від Apps Script
+// ============================================================
+let API_URL = localStorage.getItem('bg_api_url') || 'https://script.google.com/macros/s/AKfycbwYWFbk0hdl-bmwecBUKQbfX7YFnd6p702Bk-3L4hGWtuM5a939ej4GY4L4N_KSWjAi/exec';
 
-function getSettings(){return JSON.parse(localStorage.getItem('bg_settings')||'{}');}
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  token: localStorage.getItem('bg_token'),
+  role:  localStorage.getItem('bg_role'),
+  login: localStorage.getItem('bg_login'),
+  repairs: [],
+  suppliers: [],
+  parts: [],
+  works: [],
+  codings: [],
+  users: [],
+  filter: 'all',
+  editId: null,
+  formParts: [],
+  formWorks: [],
+  formCodings: [],
+  muType: 'pct',
+  partUnit: 'шт',
+  newPartUnit: 'шт',
+};
 
-function applySettings(s){
-  if(s.anthropic)     document.getElementById('set-anthropic').value   =s.anthropic;
-  if(s.tgToken)       document.getElementById('set-tg-token').value    =s.tgToken;
-  if(s.tgChannel)     document.getElementById('set-tg-channel').value  =s.tgChannel;
-  if(s.tgStorageChat) document.getElementById('set-tg-storage').value  =s.tgStorageChat;
-  if(s.footer)        document.getElementById('set-footer').value      =s.footer;
-  updateStatus(s);
+// ============================================================
+// API
+// ============================================================
+async function api(payload) {
+  if (!API_URL) {
+    toast('URL бази не налаштовано. Перейдіть у Налаштування.', 'error');
+    throw new Error('No API URL');
+  }
+  if (state.token) payload.token = state.token;
+  const r = await fetch(API_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  return r.json();
 }
 
-function saveSettings(){
-  const s={
-    anthropic:    document.getElementById('set-anthropic').value.trim(),
-    tgToken:      document.getElementById('set-tg-token').value.trim(),
-    tgChannel:    document.getElementById('set-tg-channel').value.trim(),
-    tgStorageChat:document.getElementById('set-tg-storage').value.trim(),
-    footer:       document.getElementById('set-footer').value.trim(),
-  };
-  localStorage.setItem('bg_settings',JSON.stringify(s));
-  updateStatus(s);showToast('✅ Збережено');
+// ============================================================
+// AUTH
+// ============================================================
+async function doLogin() {
+  const login = document.getElementById('auth-login').value.trim();
+  const pass  = document.getElementById('auth-pass').value;
+  if (!login || !pass) { showAuthError('Введіть логін і пароль'); return; }
+
+  const btn = document.getElementById('auth-btn');
+  btn.disabled = true; btn.textContent = 'Вхід...';
+  showAuthError('');
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'login', login, password: pass }),
+    }).then(r => r.json());
+
+    if (res.ok) {
+      state.token = res.token;
+      state.role  = res.role;
+      state.login = res.login;
+      localStorage.setItem('bg_token', res.token);
+      localStorage.setItem('bg_role',  res.role);
+      localStorage.setItem('bg_login', res.login);
+      initApp();
+    } else {
+      showAuthError(res.error || 'Невірний логін або пароль');
+    }
+  } catch(e) {
+    showAuthError('Помилка зєднання: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = 'Увійти';
 }
 
-function updateStatus(s){
-  const set=(id,ok,txt)=>{const el=document.getElementById(id);if(!el)return;el.textContent=ok?'✅ '+txt:'❌ Не вказано';el.className='key-val '+(ok?'ok':'missing');};
-  set('st-anthropic',!!s.anthropic,'Активний');
-  set('st-tg',!!s.tgToken,'OK');
-  set('st-channel',!!s.tgChannel,s.tgChannel||'OK');
-  set('st-storage',!!s.tgStorageChat,'Налаштовано');
+function showAuthError(msg) {
+  document.getElementById('auth-error').textContent = msg;
 }
 
-document.getElementById('configFileInput').addEventListener('change',function(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    try{
-      const config=JSON.parse(ev.target.result);
-      delete config.googleCreds;delete config.driveFolder;
-      localStorage.setItem('bg_settings',JSON.stringify(config));
-      applySettings(config);showToast('✅ Конфіг завантажено!');
-    }catch(err){showToast('❌ Невірний формат файлу',true);}
-  };
-  reader.readAsText(file);this.value='';
+function doLogout() {
+  localStorage.removeItem('bg_token');
+  localStorage.removeItem('bg_role');
+  localStorage.removeItem('bg_login');
+  location.reload();
+}
+
+document.getElementById('auth-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
 });
 
-function exportConfig(){
-  const s=getSettings();
-  const blob=new Blob([JSON.stringify(s,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bimmer-config.json';a.click();
-  showToast('💾 Файл завантажено');
+// ============================================================
+// CACHE
+// ============================================================
+const CACHE_KEY = 'bg_cache_v2';
+const CACHE_TTL = 5 * 60 * 1000;
+
+function saveCache(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch(e) {}
+}
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    return (Date.now() - ts < CACHE_TTL) ? data : null;
+  } catch(e) { return null; }
+}
+function applyData(data) {
+  if (data.repairs)   state.repairs   = data.repairs;
+  if (data.suppliers) state.suppliers = data.suppliers;
+  if (data.parts)     state.parts     = data.parts;
+  if (data.works)     state.works     = data.works;
+  if (data.codings)   state.codings   = data.codings;
+  if (data.users)     state.users     = data.users || [];
 }
 
-function switchTab(name,btn){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');btn.classList.add('active');
-}
+// ============================================================
+// INIT
+// ============================================================
+async function initApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
 
-document.getElementById('cameraInput').addEventListener('change',function(e){handleMedia(Array.from(e.target.files),'photo');this.value='';});
-document.getElementById('galleryInput').addEventListener('change',function(e){handleMedia(Array.from(e.target.files),'photo');this.value='';});
-document.getElementById('cameraVideoInput').addEventListener('change',function(e){handleMedia(Array.from(e.target.files),'video');this.value='';});
-document.getElementById('videoInput').addEventListener('change',function(e){handleMedia(Array.from(e.target.files),'video');this.value='';});
+  const role = state.role;
+  document.getElementById('user-badge').textContent = state.login + ' · ' + roleLabel(role);
 
-function handleMedia(files,type){
-  files.forEach(file=>{
-    const r=new FileReader();
-    r.onload=ev=>{
-      mediaFiles.push({
-        dataUrl:ev.target.result,
-        type,
-        mimeType:file.type||(type==='video'?'video/mp4':'image/jpeg'),
-        originalFile:file
-      });
-      photos=mediaFiles.filter(m=>m.type==='photo');
-      renderGrid();
-    };
-    r.readAsDataURL(file);
+  if (role === 'admin' || role === 'viewer') { showEl('tab-stats'); showEl('tab-stats-m'); }
+  if (role === 'admin') { showEl('tab-settings'); showEl('tab-settings-m'); showEl('btn-add-repair'); }
+  if (role === 'master') showEl('btn-add-repair');
+
+  document.querySelectorAll('.admin-only').forEach(el => {
+    el.style.display = role === 'admin' ? '' : 'none';
   });
-}
 
-function renderGrid(){
-  const grid=document.getElementById('photoGrid');grid.innerHTML='';
-  mediaFiles.forEach((m,i)=>{
-    const div=document.createElement('div');div.className='media-thumb';
-    if(m.type==='video'){div.innerHTML=`<video src="${m.dataUrl}" muted playsinline style="width:100%;height:100%;object-fit:cover"></video><div class="type-badge">🎥</div><button class="remove-btn" onclick="removeMedia(${i})">✕</button>`;}
-    else{div.innerHTML=`<img src="${m.dataUrl}"><button class="remove-btn" onclick="removeMedia(${i})">✕</button>`;}
-    grid.appendChild(div);
-  });
-  const c=document.getElementById('photoCount');
-  const pc=mediaFiles.filter(m=>m.type==='photo').length;
-  const vc=mediaFiles.filter(m=>m.type==='video').length;
-  c.style.display=mediaFiles.length?'block':'none';
-  c.textContent=[pc?pc+' фото':'',vc?vc+' відео':''].filter(Boolean).join(' + ');
-}
-
-function removeMedia(i){mediaFiles.splice(i,1);photos=mediaFiles.filter(m=>m.type==='photo');renderGrid();}
-
-function toBlob(dataUrl,mime){
-  const parts=dataUrl.split(',');
-  const detectedMime=parts[0].match(/:(.*?);/)?.[1]||mime||'image/jpeg';
-  const b64=parts[1];const bin=atob(b64);const arr=new Uint8Array(bin.length);
-  for(let j=0;j<bin.length;j++)arr[j]=bin.charCodeAt(j);
-  return new Blob([arr],{type:detectedMime});
-}
-
-function buildFilename(idx=null){
-  const desc=(document.getElementById('partName').value.trim()||'bmw-part').replace(/[\/\\:*?"<>|]/g,'').replace(/\s+/g,'_').substring(0,60);
-  const price=document.getElementById('partPrice').value.trim();
-  return desc+(idx!==null?'_'+(idx+1):'')+(price?'_'+price+'грн':'');
-}
-
-async function generateCaption(){
-  const s=getSettings();
-  if(!s.anthropic){showToast('⚠️ Вкажи Anthropic API Key',true);return;}
-  const partName=document.getElementById('partName').value.trim();
-  const partPrice=document.getElementById('partPrice').value.trim();
-  const partDetails=document.getElementById('partDetails').value.trim();
-  if(!partName){showToast('⚠️ Вкажи назву деталі',true);return;}
-  setGenerating(true);
-  document.getElementById('resultSection').style.display='block';
-  const captionTa=document.getElementById('captionText');
-  captionTa.value='';
-  captionTa.placeholder='Генерую опис...';
-  captionTa.disabled=true;
-  captionTa.style.opacity='0.5';
-  document.getElementById('charCount').textContent='';
-  const footer=s.footer||'📍 Ковель | BimmerGarage | t.me/bimmergarage';
-  const prompt=`Ти — менеджер BimmerGarage у Ковелі, спеціалізація BMW F-серія.\nНапиши пост (3-5 речень) українською до фото запчастини.\nДеталь: ${partName}\n${partPrice?'Ціна: '+partPrice+' грн':''}\n${partDetails?'Додатково: '+partDetails:''}\nВимоги: живий тон, згадай BimmerGarage або Ковель, ${partPrice?'обов\'язково вкажи ціну '+partPrice+' грн,':''} без хештегів, 1-2 емодзі, в кінці: "${footer}"\nВідповідай ТІЛЬКИ текстом посту.`;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':s.anthropic,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    if(data.error)throw new Error(data.error.message);
-    generatedCaption=data.content[0].text.trim();
-    const ta=document.getElementById('captionText');
-    ta.value=generatedCaption;
-    ta.style.height='5px';
-    ta.style.height=(ta.scrollHeight+2)+'px';
-    ta.style.borderColor='var(--blue)';
-    setTimeout(()=>ta.style.borderColor='var(--border)',2000);
-    document.getElementById('charCount').textContent=generatedCaption.length+' символів';
-    document.getElementById('editHint').textContent='✏️ Можеш редагувати текст';
-    showToast('✅ Опис готовий');
-  }catch(e){
-    const errTa=document.getElementById('captionText');
-    errTa.disabled=false;errTa.style.opacity='1';
-    errTa.placeholder='Спробуй ще раз...';
-    errTa.value='Помилка: '+e.message;
-    showToast('❌ '+e.message,true);
-  }
-  setGenerating(false);
-}
-
-function setGenerating(on){
-  document.getElementById('btnGenerate').disabled=on;
-  document.getElementById('genSpinner').style.display=on?'block':'none';
-  document.getElementById('genBtnText').textContent=on?'Генерую...':'✦ Згенерувати опис';
-  if(!on){
-    const ta=document.getElementById('captionText');
-    ta.disabled=false;ta.style.opacity='1';ta.placeholder="Опис з'явиться тут...";
+  const cached = loadCache();
+  if (cached) {
+    applyData(cached);
+    renderRepairs();
+    initStatDates();
+    // Фонове оновлення без лоадера
+    api({ action: 'initData' }).then(res => {
+      if (res && res.ok) { applyData(res); saveCache(res); renderRepairs(); }
+    }).catch(() => {});
+  } else {
+    showLoader();
+    try {
+      const res = await api({ action: 'initData' });
+      if (res.ok) { applyData(res); saveCache(res); }
+    } catch(e) {}
+    hideLoader();
+    renderRepairs();
+    initStatDates();
   }
 }
-function copyCaption(){
-  const text=document.getElementById('captionText').value||generatedCaption;
-  navigator.clipboard.writeText(text).then(()=>showToast('📋 Скопійовано'));
-}
-function copyForIG(){const text=document.getElementById('captionText').value||generatedCaption;if(!text){showToast('⚠️ Спочатку згенеруй опис',true);return;}navigator.clipboard.writeText(text).then(()=>showToast('📸 Скопійовано для Instagram!'));}
-function copyForFB(){const text=document.getElementById('captionText').value||generatedCaption;if(!text){showToast('⚠️ Спочатку згенеруй опис',true);return;}navigator.clipboard.writeText(text).then(()=>showToast('👍 Скопійовано для Facebook!'));}
 
-async function uploadToStorage(){
-  const s=getSettings();
-  if(!s.tgToken||!s.tgStorageChat){showToast('⚠️ Вкажи Storage Channel ID',true);return;}
-  if(!mediaFiles.length){showToast('⚠️ Додай фото або відео',true);return;}
-  setStorageLoading(true);
-  const progress=document.getElementById('uploadProgress');const progressBar=document.getElementById('progressBar');
-  const progressLabel=document.getElementById('progressLabel');const filesList=document.getElementById('uploadFilesList');
-  progress.classList.add('show');filesList.innerHTML='';progressBar.style.width='0%';
-  let uploaded=0;
-  for(let i=0;i<mediaFiles.length;i++){
-    const media=mediaFiles[i];const base=buildFilename(mediaFiles.length>1?i:null);
-    const filename=base+(media.type==='video'?'.mp4':'.jpg');
-    progressLabel.textContent=`Завантажую ${i+1} з ${mediaFiles.length}...`;
-    const item=document.createElement('div');item.className='upload-file-item';item.textContent='⏳ '+filename;filesList.appendChild(item);
-    try{
-      const fd=new FormData();fd.append('chat_id',s.tgStorageChat);fd.append('caption',filename);
-      if(media.type==='video'){
-        const videoFile=media.originalFile||toBlob(media.dataUrl,media.mimeType);
-        fd.append('video',videoFile,filename);
-        const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendVideo`,{method:'POST',body:fd});
-        const d=await r.json();if(!d.ok)throw new Error(d.description);
-      }else{
-        const blob=toBlob(media.dataUrl,media.mimeType);
-        fd.append('photo',blob,filename);
-        const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendPhoto`,{method:'POST',body:fd});
-        const d=await r.json();if(!d.ok)throw new Error(d.description);
+function roleLabel(r) {
+  return {admin:'Адмін', master:'Майстер', viewer:'Перегляд'}[r] || r;
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function showTab(name, el) {
+  // Синхронізуємо обидві навігації (desktop + mobile)
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
+  // Активуємо відповідні кнопки в обох рядках
+  const ids = { repairs: ['tab-repairs','tab-repairs-m'], stats: ['tab-stats','tab-stats-m'], settings: ['tab-settings','tab-settings-m'] };
+  (ids[name] || []).forEach(id => { const b = document.getElementById(id); if(b) b.classList.add('active'); });
+  ['repairs','stats','settings'].forEach(t => {
+    document.getElementById(t + '-tab').classList.toggle('hidden', t !== name);
+  });
+  if (name === 'stats') renderStats();
+  if (name === 'settings') renderSettings();
+}
+
+// ============================================================
+// REPAIRS
+// ============================================================
+function setFilter(f, el) {
+  state.filter = f;
+  document.querySelectorAll('.fbadge').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderRepairs();
+}
+
+function renderRepairs() {
+  const q = (document.getElementById('search-input').value || '').toLowerCase();
+  let list = state.repairs.filter(j => {
+    const m = !q || (j.car + j.client + j.work + (j.vin||'')).toLowerCase().includes(q);
+    const s = state.filter === 'all' || j.status === state.filter;
+    return m && s;
+  });
+
+  const el = document.getElementById('jobs-list');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">
+      <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+      <p>Ремонтів не знайдено</p>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(j => repairCard(j)).join('');
+}
+
+function repairCard(j) {
+  const isDone = j.status === 'done';
+  const partsTotal   = (j.parts   || []).reduce((s, p) => s + (p.sale * p.qty), 0);
+  const costTotal    = (j.parts   || []).reduce((s, p) => s + ((p.cost||0) * p.qty), 0);
+  const worksTotal   = (j.works   || []).reduce((s, w) => s + (w.retail || 0), 0);
+  const codingsTotal = (j.codings || []).reduce((s, c) => s + (c.retail || 0), 0);
+  const margin = partsTotal - costTotal;
+  const total  = worksTotal + codingsTotal + partsTotal;
+
+  const partsHtml = (j.parts || []).length ? `
+    <div class="chips">
+      ${j.parts.map(p => {
+        const saleAmt = Math.round(p.sale * p.qty);
+        const costAmt = Math.round((p.cost||0) * p.qty);
+        const isAdmin = state.role === 'admin';
+        return `<div class="chip" onclick="toggleChip(this)" title="${isAdmin ? 'Натисни щоб побачити прихідну ціну' : ''}">
+          <span class="chip-pub">${p.name} <b>${saleAmt} грн</b> · ${p.qty} ${p.unit||'шт'}</span>
+          ${isAdmin ? `<span class="chip-secret">↳ прихідна: ${costAmt} грн · ${p.supplier||'—'} · маржа: ${saleAmt-costAmt} грн</span>` : ''}
+        </div>`;
+      }).join('')}
+    </div>` : '';
+
+  const marginHtml = state.role === 'admin' && margin > 0
+    ? `<span class="divider"></span><span class="job-meta" style="color:var(--green2)">маржа запч.: ${Math.round(margin)} грн</span>`
+    : '';
+
+  const canEdit = state.role !== 'viewer';
+  const actionsHtml = `<div class="job-actions">
+    <button class="ja-btn" onclick="sharePDF(${j.id})">
+      <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      PDF / Поділитися
+    </button>
+    ${canEdit ? `<button class="ja-btn" onclick="openRepairModal(${j.id})">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Редагувати
+    </button>
+    <button class="ja-btn" onclick="toggleRepairStatus(${j.id})">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      ${isDone ? 'Відкрити' : 'Завершити'}
+    </button>` : ''}
+    ${state.role === 'admin' ? `<button class="ja-btn danger" onclick="deleteRepair(${j.id})">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+      Видалити
+    </button>` : ''}
+  </div>`;
+
+  return `<div class="job" id="job-${j.id}">
+    <div class="job-accent ${isDone ? 'done' : ''}"></div>
+    <div class="job-inner">
+      <div class="job-r1">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;flex:1;cursor:pointer" onclick="toggleCard('${j.id}')">
+          <span class="job-car">${j.car}</span>
+          ${j.vin ? `<span class="job-plate">${j.vin}</span>` : ''}
+        </div>
+        <div class="job-r1-right">
+          <span class="status ${isDone ? 's-done' : 's-open'}">${isDone ? 'Завершений' : 'В роботі'}</span>
+          <button class="job-expand-btn" id="expand-btn-${j.id}" onclick="toggleCard('${j.id}')">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="job-r2" style="cursor:pointer" onclick="toggleCard('${j.id}')">
+        <span class="job-work">
+          ${(j.works||[]).length ? (j.works||[]).map(w=>w.name).join(', ') :
+            (j.codings||[]).length ? (j.codings||[]).map(c=>c.name).join(', ') : '—'}
+        </span>
+        <span class="job-price">${Math.round(total)} грн</span>
+      </div>
+      <div class="job-r3">
+        ${j.client ? `<span class="job-meta"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-8 0v2"/><circle cx="16" cy="7" r="4"/></svg>${j.client}</span>` : ''}
+        ${j.client && j.date ? '<div class="divider"></div>' : ''}
+        ${j.date ? `<span class="job-meta"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${j.date}</span>` : ''}
+        ${marginHtml}
+      </div>
+
+      <!-- РОЗГОРНУТА КАРТКА -->
+      <div class="job-details" id="details-${j.id}">
+        ${j.phone ? `<div class="job-detail-row"><span class="job-detail-label">Телефон:</span><span class="job-detail-val"><a href="tel:${j.phone}" style="color:var(--green2)">${j.phone}</a></span></div>` : ''}
+        ${j.vin ? `<div class="job-detail-row"><span class="job-detail-label">VIN / Номер:</span><span class="job-detail-val">${j.vin}</span></div>` : ''}
+        ${j.notes ? `<div class="job-detail-row"><span class="job-detail-label">Нотатки:</span><span class="job-detail-val" style="color:var(--text2)">${j.notes}</span></div>` : ''}
+        ${(j.works||[]).length ? `
+          <div style="margin-top:8px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px">Роботи</div>
+            ${j.works.map(w => `<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0">
+              <span>${w.name}</span>
+              <span style="font-weight:600">${w.retail||0} грн${state.role==='admin'&&w.cost?'<span style=color:var(--text3);font-size:11px;margin-left:6px>собів: '+w.cost+' грн</span>':''}</span>
+            </div>`).join('')}
+          </div>` : ''}
+        ${(j.codings||[]).length ? `
+          <div style="margin-top:8px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px">Кодування</div>
+            ${j.codings.map(c => `<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0">
+              <span>${c.name}</span>
+              <span style="font-weight:600">${c.retail||0} грн${state.role==='admin'&&c.cost?'<span style=color:var(--text3);font-size:11px;margin-left:6px>собів: '+c.cost+' грн</span>':''}</span>
+            </div>`).join('')}
+          </div>` : ''}
+        ${(j.parts||[]).length ? `
+          <div style="margin-top:8px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px">Запчастини</div>
+            ${j.parts.map(p => {
+              const saleAmt = Math.round(p.sale * p.qty);
+              const costAmt = Math.round((p.cost||0) * p.qty);
+              return `<div class="chip" style="margin-bottom:4px;cursor:${state.role==='admin'?'pointer':'default'}" onclick="${state.role==='admin'?`toggleChip(this)`:''}">
+                <span class="chip-pub">${p.name} <b>${saleAmt} грн</b> · ${p.qty} ${p.unit||'шт'} · ${p.supplier||'—'}</span>
+                ${state.role==='admin' ? `<span class="chip-secret">↳ прихідна: ${costAmt} грн · маржа: ${saleAmt-costAmt} грн</span>` : ''}
+              </div>`;
+            }).join('')}
+          </div>` : ''}
+        ${actionsHtml}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleCard(id) {
+  const details = document.getElementById('details-' + id);
+  const btn = document.getElementById('expand-btn-' + id);
+  if (!details) return;
+  const isOpen = details.classList.contains('open');
+  details.classList.toggle('open', !isOpen);
+  if (btn) btn.classList.toggle('open', !isOpen);
+}
+
+function toggleChip(el) {
+  if (state.role !== 'admin') return;
+  el.classList.toggle('revealed');
+}
+
+async function toggleRepairStatus(id) {
+  const j = state.repairs.find(r => r.id == id);
+  if (!j) return;
+  const updated = { ...j, status: j.status === 'open' ? 'done' : 'open' };
+  // Оптимістично оновлюємо UI одразу
+  state.repairs = state.repairs.map(r => r.id == id ? updated : r);
+  renderRepairs();
+  toast('Статус оновлено', 'success');
+  // Зберігаємо у фоні
+  api({ action: 'saveRepair', repair: updated }).then(res => {
+    if (!res.ok) {
+      // Відкочуємо якщо помилка
+      state.repairs = state.repairs.map(r => r.id == id ? j : r);
+      renderRepairs();
+      toast(res.error || 'Помилка збереження', 'error');
+    } else {
+      localStorage.removeItem('bg_cache_v2');
+    }
+  }).catch(() => {});
+}
+
+async function deleteRepair(id) {
+  if (!confirm('Видалити цей ремонт?')) return;
+  const prev = [...state.repairs];
+  // Оптимістично видаляємо
+  state.repairs = state.repairs.filter(r => r.id != id);
+  renderRepairs();
+  toast('Ремонт видалено', 'success');
+  api({ action: 'deleteRepair', id }).then(res => {
+    if (!res.ok) {
+      state.repairs = prev;
+      renderRepairs();
+      toast(res.error || 'Помилка видалення', 'error');
+    } else {
+      localStorage.removeItem('bg_cache_v2');
+    }
+  }).catch(() => {});
+}
+
+// ============================================================
+// REPAIR MODAL
+// ============================================================
+function openRepairModal(id = null) {
+  state.editId = id;
+  state.formParts = [];
+  state.formWorks = [];
+  state.formCodings = [];
+
+  document.getElementById('modal-title').textContent = id ? 'Редагувати ремонт' : 'Новий ремонт';
+
+  // Заповнюємо селекти
+  fillWorkSelect();
+  fillCodingSelect();
+  fillSupplierSelect();
+  fillPartCatSelect();
+
+  if (id) {
+    const j = state.repairs.find(r => r.id == id);
+    if (j) {
+      document.getElementById('f-car').value    = j.car || '';
+      document.getElementById('f-vin').value    = j.vin || '';
+      document.getElementById('f-client').value = j.client || '';
+      document.getElementById('f-phone').value  = j.phone || '';
+      document.getElementById('f-date').value   = j.date || '';
+      document.getElementById('f-status').value = j.status || 'open';
+      document.getElementById('f-notes').value  = j.notes || '';
+      state.formWorks   = (j.works   || []).map(w => ({ ...w, id: w.id || Date.now() + Math.random() }));
+      state.formCodings = (j.codings || []).map(c => ({ ...c, id: c.id || Date.now() + Math.random() }));
+      state.formParts   = (j.parts   || []).map(p => ({ ...p, id: p.id || Date.now() + Math.random() }));
+    }
+  } else {
+    ['f-car','f-vin','f-client','f-phone','f-notes'].forEach(fid => {
+      const el = document.getElementById(fid); if (el) el.value = '';
+    });
+    document.getElementById('f-date').value   = new Date().toISOString().split('T')[0];
+    document.getElementById('f-status').value = 'open';
+    state.formWorks   = [];
+    state.formCodings = [];
+  }
+
+  renderFormWorks();
+  renderFormCodings();
+  renderFormParts();
+  calcFormTotal();
+  // Hide admin-only fields based on role
+  document.querySelectorAll('#repair-modal .admin-only').forEach(el => {
+    el.style.display = state.role === 'admin' ? '' : 'none';
+  });
+  openModal('repair-modal');
+}
+
+function fillWorkSelect() {
+  const sel = document.getElementById('f-work-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— з каталогу —</option>' +
+    state.works.map(w => `<option value="${w.id}" data-retail="${w.retail}" data-cost="${w.cost||0}">${w.name}</option>`).join('');
+}
+
+function fillCodingSelect() {
+  const sel = document.getElementById('f-coding-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— з каталогу —</option>' +
+    state.codings.map(c => `<option value="${c.id}" data-retail="${c.retail}" data-cost="${c.cost||0}">${c.name}</option>`).join('');
+}
+
+// ---- WORKS in form ----
+function onWorkSelChange() {
+  const sel = document.getElementById('f-work-sel');
+  if (!sel || !sel.value) return;
+  const opt = sel.options[sel.selectedIndex];
+  document.getElementById('f-work-custom').value = '';
+  document.getElementById('f-work-retail').value = opt.dataset.retail || '';
+  if (state.role === 'admin') {
+    const costEl = document.getElementById('f-work-cost');
+    if (costEl) costEl.value = opt.dataset.cost || '';
+  }
+}
+
+function addFormWork() {
+  const sel    = document.getElementById('f-work-sel');
+  const custom = document.getElementById('f-work-custom').value.trim();
+  const retail = parseFloat(document.getElementById('f-work-retail').value) || 0;
+  const cost   = parseFloat(document.getElementById('f-work-cost')?.value)  || 0;
+
+  let name = '';
+  if (sel && sel.value) {
+    name = sel.options[sel.selectedIndex].text;
+    sel.value = '';
+  } else if (custom) {
+    name = custom;
+    document.getElementById('f-work-custom').value = '';
+  }
+  if (!name) { toast('Вкажіть вид роботи', 'error'); return; }
+  if (!retail) { toast('Вкажіть вартість роботи', 'error'); return; }
+
+  state.formWorks.push({ id: Date.now() + Math.random(), name, retail, cost });
+  document.getElementById('f-work-retail').value = '';
+  const costEl = document.getElementById('f-work-cost');
+  if (costEl) costEl.value = '';
+  renderFormWorks();
+  calcFormTotal();
+}
+
+function removeFormWork(id) {
+  state.formWorks = state.formWorks.filter(w => w.id != id);
+  renderFormWorks(); calcFormTotal();
+}
+
+function toggleWorkEdit(id) {
+  const el = document.getElementById('wedit-' + id);
+  if (el) el.classList.toggle('open');
+}
+
+function updateFormWork(id, field, value) {
+  state.formWorks = state.formWorks.map(w =>
+    w.id == id ? { ...w, [field]: parseFloat(value) || 0 } : w
+  );
+  const w = state.formWorks.find(x => x.id == id);
+  if (w) {
+    const priceEl = document.querySelector(`#witem-${id} .wi-price`);
+    if (priceEl) priceEl.textContent = w.retail + ' грн';
+  }
+  calcFormWorkTotal(); calcFormTotal();
+}
+
+function calcFormWorkTotal() {
+  const total = state.formWorks.reduce((s, w) => s + (w.retail || 0), 0);
+  const el = document.getElementById('form-works-total');
+  if (el) el.textContent = total + ' грн';
+}
+
+function renderFormWorks() {
+  const el = document.getElementById('form-works-list');
+  if (!el) return;
+  el.innerHTML = state.formWorks.map(w => `
+    <div class="part-item" id="witem-${w.id}">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="part-item-name" style="flex:1">${w.name}</span>
+        <span class="wi-price part-item-price">${w.retail || 0} грн</span>
+        <button class="btn-d" style="padding:3px 9px;font-size:13px" title="Редагувати" onclick="toggleWorkEdit(${w.id})">✎</button>
+        <button class="btn-d" style="padding:3px 8px" onclick="removeFormWork(${w.id})">×</button>
+      </div>
+      <div class="part-item-edit" id="wedit-${w.id}">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="fl"><label>Роздрібна (грн)</label>
+            <input type="number" value="${w.retail||0}" min="0"
+              oninput="updateFormWork(${w.id},'retail',this.value)">
+          </div>
+          <div class="fl admin-only"><label>Собівартість (грн)</label>
+            <input type="number" value="${w.cost||0}" min="0"
+              oninput="updateFormWork(${w.id},'cost',this.value)">
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+  if (state.role !== 'admin') {
+    el.querySelectorAll('.admin-only').forEach(x => x.style.display = 'none');
+  }
+  calcFormWorkTotal();
+}
+
+// ---- CODINGS in form ----
+function onCodingSelChange() {
+  const sel = document.getElementById('f-coding-sel');
+  if (!sel || !sel.value) return;
+  const opt = sel.options[sel.selectedIndex];
+  document.getElementById('f-coding-custom').value = '';
+  document.getElementById('f-coding-retail').value = opt.dataset.retail || '';
+  if (state.role === 'admin') {
+    const costEl = document.getElementById('f-coding-cost');
+    if (costEl) costEl.value = opt.dataset.cost || '';
+  }
+}
+
+function addFormCoding() {
+  const sel    = document.getElementById('f-coding-sel');
+  const custom = document.getElementById('f-coding-custom').value.trim();
+  const retail = parseFloat(document.getElementById('f-coding-retail').value) || 0;
+  const cost   = parseFloat(document.getElementById('f-coding-cost')?.value)  || 0;
+
+  let name = '';
+  if (sel && sel.value) {
+    name = sel.options[sel.selectedIndex].text;
+    sel.value = '';
+  } else if (custom) {
+    name = custom;
+    document.getElementById('f-coding-custom').value = '';
+  }
+  if (!name)   { toast('Вкажіть вид кодування', 'error'); return; }
+  if (!retail) { toast('Вкажіть вартість кодування', 'error'); return; }
+
+  state.formCodings.push({ id: Date.now() + Math.random(), name, retail, cost });
+  document.getElementById('f-coding-retail').value = '';
+  const costEl = document.getElementById('f-coding-cost');
+  if (costEl) costEl.value = '';
+  renderFormCodings();
+  calcFormTotal();
+}
+
+function removeFormCoding(id) {
+  state.formCodings = state.formCodings.filter(c => c.id != id);
+  renderFormCodings(); calcFormTotal();
+}
+
+function toggleCodingEdit(id) {
+  const el = document.getElementById('cedit-' + id);
+  if (el) el.classList.toggle('open');
+}
+
+function updateFormCoding(id, field, value) {
+  state.formCodings = state.formCodings.map(c =>
+    c.id == id ? { ...c, [field]: parseFloat(value) || 0 } : c
+  );
+  const c = state.formCodings.find(x => x.id == id);
+  if (c) {
+    const priceEl = document.querySelector(`#citem-${id} .ci-price`);
+    if (priceEl) priceEl.textContent = c.retail + ' грн';
+  }
+  calcFormCodingTotal(); calcFormTotal();
+}
+
+function calcFormCodingTotal() {
+  const total = state.formCodings.reduce((s, c) => s + (c.retail || 0), 0);
+  const el = document.getElementById('form-codings-total');
+  if (el) el.textContent = total + ' грн';
+}
+
+function renderFormCodings() {
+  const el = document.getElementById('form-codings-list');
+  if (!el) return;
+  el.innerHTML = state.formCodings.map(c => `
+    <div class="part-item" id="citem-${c.id}">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="part-item-name" style="flex:1">${c.name}</span>
+        <span class="ci-price part-item-price">${c.retail || 0} грн</span>
+        <button class="btn-d" style="padding:3px 9px;font-size:13px" title="Редагувати" onclick="toggleCodingEdit(${c.id})">✎</button>
+        <button class="btn-d" style="padding:3px 8px" onclick="removeFormCoding(${c.id})">×</button>
+      </div>
+      <div class="part-item-edit" id="cedit-${c.id}">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="fl"><label>Роздрібна (грн)</label>
+            <input type="number" value="${c.retail||0}" min="0"
+              oninput="updateFormCoding(${c.id},'retail',this.value)">
+          </div>
+          <div class="fl admin-only"><label>Собівартість (грн)</label>
+            <input type="number" value="${c.cost||0}" min="0"
+              oninput="updateFormCoding(${c.id},'cost',this.value)">
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+  if (state.role !== 'admin') {
+    el.querySelectorAll('.admin-only').forEach(x => x.style.display = 'none');
+  }
+  calcFormCodingTotal();
+}
+
+function fillSupplierSelect() {
+  const sel = document.getElementById('p-supplier');
+  sel.innerHTML = state.suppliers.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+}
+
+function fillPartCatSelect() {
+  const sel = document.getElementById('p-cat-sel');
+  sel.innerHTML = '<option value="">— вибрати —</option>' +
+    state.parts.map(p => `<option value="${p.id}"
+      data-unit="${p.unit}"
+      data-cost="${p.cost || 0}"
+      data-markup="${p.markup || 0}"
+      data-markuptype="${p.markupType || 'pct'}"
+    >${p.name} (${p.unit})</option>`).join('');
+}
+
+function onWorkSelect() {
+  const sel = document.getElementById('f-work-sel');
+  const opt = sel.options[sel.selectedIndex];
+  if (!opt.value) return;
+  document.getElementById('f-work-custom').value = '';
+  document.getElementById('f-labor').value = opt.dataset.retail || '';
+  if (state.role === 'admin') document.getElementById('f-labor-cost').value = opt.dataset.cost || '';
+  calcFormTotal();
+}
+
+function onPartCatSelect() {
+  const sel = document.getElementById('p-cat-sel');
+  const opt = sel.options[sel.selectedIndex];
+  if (!opt.value) return;
+  document.getElementById('p-name-custom').value = '';
+
+  const unit       = opt.dataset.unit || 'шт';
+  const cost       = opt.dataset.cost || '';
+  const markup     = opt.dataset.markup || '';
+  const markupType = opt.dataset.markuptype || 'pct';
+
+  document.getElementById('p-unit-disp').value = unit;
+  document.getElementById('p-qty').step = unit === 'шт' ? '1' : '0.1';
+  document.getElementById('p-qty').value = unit === 'шт' ? '1' : '1.0';
+
+  if (state.role === 'admin') {
+    document.getElementById('p-cost').value = cost;
+    document.getElementById('p-markup').value = markup;
+    // Встановлюємо тип націнки
+    setMuType(markupType);
+    // Рахуємо ціну продажу
+    if (cost) {
+      const c = parseFloat(cost) || 0;
+      const m = parseFloat(markup) || 0;
+      const sale = markupType === 'pct' ? Math.round(c * (1 + m / 100)) : Math.round(c + m);
+      document.getElementById('p-sale').value = sale || '';
+      if (c > 0 && sale > 0) {
+        const margin = sale - c;
+        document.getElementById('mu-preview').textContent =
+          'Маржа: ' + margin + ' грн (' + Math.round(margin / sale * 100) + '%)';
       }
-      item.className='upload-file-item done';item.textContent='✅ '+filename;uploaded++;
-    }catch(e){item.className='upload-file-item error';item.textContent='❌ '+filename+': '+e.message;}
-    progressBar.style.width=`${((i+1)/mediaFiles.length)*100}%`;
-  }
-  progressLabel.textContent=`Готово: ${uploaded} з ${mediaFiles.length}`;
-  setStorageLoading(false);
-  showToast(uploaded===mediaFiles.length?`✈️ ${uploaded} файлів збережено`:`⚠️ ${uploaded} з ${mediaFiles.length}`,uploaded<mediaFiles.length);
-}
-
-function setStorageLoading(on){document.getElementById('btnStorage').disabled=on;document.getElementById('storageSpinner').style.display=on?'block':'none';document.getElementById('storageBtnText').textContent=on?'Завантажую...':'✈️ Зберегти в Telegram-сховище';}
-
-function toggleChannel(btn){btn.classList.toggle('selected');}
-
-async function publishNow(){
-  const channels=Array.from(document.querySelectorAll('.channel-btn.selected')).map(b=>b.dataset.channel);
-  if(!channels.length){showToast('⚠️ Обери канал',true);return;}
-  const taVal=document.getElementById('captionText').value.trim();
-  if(taVal) generatedCaption=taVal;
-  if(!generatedCaption){showToast('⚠️ Спочатку згенеруй опис',true);return;}
-  const s=getSettings();setPosting(true);let results=[];
-  try{
-  if(channels.includes('telegram')){
-    if(!s.tgToken||!s.tgChannel){results.push('TG: немає токену');}
-    else{
-      try{
-        const tgPhotos=mediaFiles.filter(m=>m.type==='photo');
-        const tgVideos=mediaFiles.filter(m=>m.type==='video');
-
-        // 1. Публікуємо фото
-        if(tgPhotos.length===1){
-          try{
-            const fd=new FormData();fd.append('chat_id',s.tgChannel);
-            fd.append('caption',generatedCaption);
-            fd.append('photo',toBlob(tgPhotos[0].dataUrl),'photo.jpg');
-            const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendPhoto`,{method:'POST',body:fd});
-            const d=await r.json();
-            results.push(d.ok||d.message_id?'✅ Фото в Telegram':'❌ TG фото: '+d.description);
-          }catch(e){results.push('❌ TG фото: '+e.message);}
-
-        }else if(tgPhotos.length>1){
-          try{
-            const fd=new FormData();fd.append('chat_id',s.tgChannel);
-            const mediaArr=tgPhotos.map((p,i)=>{
-              fd.append('photo'+i,toBlob(p.dataUrl),'photo'+i+'.jpg');
-              return {type:'photo',media:'attach://photo'+i,...(i===0?{caption:generatedCaption}:{})};
-            });
-            fd.append('media',JSON.stringify(mediaArr));
-            const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendMediaGroup`,{method:'POST',body:fd});
-            const d=await r.json();
-            const ok=Array.isArray(d)&&d.length>0&&d[0].message_id;
-            results.push(ok?`✅ ${tgPhotos.length} фото в Telegram`:'❌ TG фото: '+(d.description||JSON.stringify(d).substring(0,50)));
-          }catch(e){results.push('❌ TG фото: '+e.message);}
-        }
-
-        // 2. Публікуємо відео окремо
-        for(const vid of tgVideos){
-          try{
-            const videoFile=vid.originalFile||toBlob(vid.dataUrl,vid.mimeType);
-            const fd=new FormData();fd.append('chat_id',s.tgChannel);
-            fd.append('caption',generatedCaption);
-            fd.append('video',videoFile,'video.mp4');
-            const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendVideo`,{method:'POST',body:fd});
-            const d=await r.json();
-            results.push(d.ok?'✅ Відео в Telegram':'❌ TG відео: '+d.description);
-          }catch(ve){results.push('❌ TG відео: '+ve.message);}
-        }
-
-        // 3. Якщо нічого не вибрано — текст
-        if(!tgPhotos.length&&!tgVideos.length){
-          try{
-            const r=await fetch(`https://api.telegram.org/bot${s.tgToken}/sendMessage`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({chat_id:s.tgChannel,text:generatedCaption})});
-            const d=await r.json();results.push(d.ok?'✅ Telegram':'❌ TG: '+d.description);
-          }catch(e){results.push('❌ TG: '+e.message);}
-        }
-      }catch(e){results.push('❌ TG: '+e.message);}
     }
   }
-  saveHistory(generatedCaption,channels,mediaFiles[0]?.dataUrl);
-  }catch(globalErr){results.push('❌ Помилка: '+globalErr.message);}
-  finally{setPosting(false);}
-  if(results.length)showToast(results.join(' · '));
-  else showToast('⚠️ Нічого не опубліковано',true);
 }
 
-function setPosting(on){document.getElementById('btnPost').disabled=on;document.getElementById('postSpinner').style.display=on?'block':'none';document.getElementById('postBtnText').textContent=on?'Публікую...':'⚡ Опублікувати зараз';}
-
-function getHistory(){return JSON.parse(localStorage.getItem('bg_history')||'[]');}
-function saveHistory(caption,channels,thumbUrl){
-  const h=getHistory();h.unshift({caption,channels,thumbUrl:thumbUrl||null,date:new Date().toISOString()});
-  if(h.length>200)h.pop();localStorage.setItem('bg_history',JSON.stringify(h));
+function setMuType(type) {
+  state.muType = type;
+  document.getElementById('mu-pct').classList.toggle('active', type === 'pct');
+  document.getElementById('mu-fix').classList.toggle('active', type === 'fix');
+  document.getElementById('mu-label').textContent = type === 'pct' ? 'Націнка (%)' : 'Націнка (грн)';
+  calcPartSale();
 }
 
-function renderStats(){
-  const h=getHistory();const now=new Date();const todayStr=now.toDateString();
-  const weekAgo=new Date(now-7*24*60*60*1000);const monthAgo=new Date(now-30*24*60*60*1000);
-  document.getElementById('stat-total').textContent=h.length;
-  document.getElementById('stat-today').textContent=h.filter(i=>new Date(i.date).toDateString()===todayStr).length;
-  document.getElementById('stat-week').textContent=h.filter(i=>new Date(i.date)>=weekAgo).length;
-  document.getElementById('stat-month').textContent=h.filter(i=>new Date(i.date)>=monthAgo).length;
-  const days=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];const weekData=[];let maxVal=1;
-  for(let d=6;d>=0;d--){const date=new Date(now-d*24*60*60*1000);const count=h.filter(i=>new Date(i.date).toDateString()===date.toDateString()).length;weekData.push({day:days[date.getDay()],count,isToday:d===0});if(count>maxVal)maxVal=count;}
-  document.getElementById('weekBars').innerHTML=weekData.map(d=>`<div class="week-bar-wrap"><div style="font-size:10px;color:var(--muted);text-align:center;margin-bottom:2px">${d.count||''}</div><div class="week-bar${d.isToday?' today':''}" style="height:${Math.max(4,(d.count/maxVal)*70)}px"></div></div>`).join('');
-  document.getElementById('weekDays').innerHTML=weekData.map(d=>`<div style="flex:1;font-size:10px;color:${d.isToday?'var(--blue)':'var(--muted)'};text-align:center;font-weight:${d.isToday?700:400}">${d.day}</div>`).join('');
-  const recent=document.getElementById('recentList');
-  if(!h.length){recent.innerHTML='<div class="empty-state"><div class="icon">📋</div><p>Ще немає постів.</p></div>';return;}
-  recent.innerHTML=h.slice(0,10).map(item=>{
-    const d=new Date(item.date);const dateStr=d.toLocaleDateString('uk-UA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<div class="recent-item">${item.thumbUrl?`<img src="${item.thumbUrl}">`:'<div style="width:44px;height:44px;background:var(--border);border-radius:7px;flex-shrink:0"></div>'}<div class="recent-meta"><strong>${item.caption.substring(0,50)}...</strong><span>${dateStr}</span><br><span class="ch-badge">telegram</span></div></div>`;
+function calcPartSale() {
+  const cost = parseFloat(document.getElementById('p-cost').value) || 0;
+  const mu   = parseFloat(document.getElementById('p-markup').value) || 0;
+  let sale = state.muType === 'pct' ? cost * (1 + mu / 100) : cost + mu;
+  sale = Math.round(sale);
+  if (cost > 0) {
+    document.getElementById('p-sale').value = sale;
+    const margin = sale - cost;
+    document.getElementById('mu-preview').textContent =
+      `Маржа: ${margin} грн (${sale > 0 ? Math.round(margin / sale * 100) : 0}%)`;
+  }
+}
+
+function calcPartMargin() {
+  const cost = parseFloat(document.getElementById('p-cost').value) || 0;
+  const sale = parseFloat(document.getElementById('p-sale').value) || 0;
+  if (cost > 0 && sale > 0) {
+    const margin = sale - cost;
+    document.getElementById('mu-preview').textContent =
+      `Маржа: ${margin} грн (${Math.round(margin / sale * 100)}%)`;
+  }
+}
+
+function addFormPart() {
+  const catSel = document.getElementById('p-cat-sel');
+  const catOpt = catSel.options[catSel.selectedIndex];
+  const customName = document.getElementById('p-name-custom').value.trim();
+  const name = customName || (catOpt.value ? catOpt.text.split(' (')[0] : '');
+  if (!name) { toast('Вкажіть назву запчастини', 'error'); return; }
+
+  const unit     = document.getElementById('p-unit-disp').value || 'шт';
+  const qty      = parseFloat(document.getElementById('p-qty').value) || 1;
+  const cost     = parseFloat(document.getElementById('p-cost').value) || 0;
+  const sale     = parseFloat(document.getElementById('p-sale').value) || 0;
+  const markup   = parseFloat(document.getElementById('p-markup').value) || 0;
+  const supplier = document.getElementById('p-supplier').value;
+
+  state.formParts.push({ id: Date.now(), name, unit, qty, cost, sale, markup, markupType: state.muType, supplier });
+
+  // Очищуємо
+  document.getElementById('p-cat-sel').value = '';
+  document.getElementById('p-name-custom').value = '';
+  document.getElementById('p-unit-disp').value = '';
+  document.getElementById('p-cost').value = '';
+  document.getElementById('p-markup').value = '';
+  document.getElementById('p-sale').value = '';
+  document.getElementById('mu-preview').textContent = '';
+  document.getElementById('p-qty').value = 1;
+
+  renderFormParts();
+  calcFormTotal();
+}
+
+function removeFormPart(id) {
+  state.formParts = state.formParts.filter(p => p.id != id);
+  renderFormParts();
+  calcFormTotal();
+}
+
+function renderFormParts() {
+  const el = document.getElementById('form-parts-list');
+  if (!state.formParts.length) { el.innerHTML = ''; return; }
+  el.innerHTML = state.formParts.map(p => {
+    const saleTotal = Math.round(p.sale * p.qty);
+    const costTotal = Math.round((p.cost||0) * p.qty);
+    const margin = saleTotal - costTotal;
+    const supOptions = state.suppliers.map(s =>
+      `<option value="${s.name}" ${s.name === p.supplier ? 'selected' : ''}>${s.name}</option>`
+    ).join('');
+    return `<div class="part-item" id="pitem-${p.id}">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="part-item-name" style="flex:1">${p.name}</span>
+        <span class="part-item-unit">${p.qty} ${p.unit||'шт'}</span>
+        ${p.supplier ? `<span class="part-item-unit" style="color:var(--text3)">${p.supplier}</span>` : ''}
+        <span class="part-item-price">${saleTotal} грн</span>
+        <button class="btn-d" style="padding:3px 9px;font-size:13px" title="Редагувати" onclick="togglePartEdit(${p.id})">✎</button>
+        <button class="btn-d" style="padding:3px 8px" onclick="removeFormPart(${p.id})">×</button>
+      </div>
+      <div class="part-item-edit" id="pedit-${p.id}">
+        <div class="part-edit-grid">
+          <div class="fl"><label>Кількість</label>
+            <input type="number" value="${p.qty}" min="0.01" step="${p.unit==='шт'?'1':'0.1'}"
+              onchange="updateFormPart(${p.id},'qty',this.value)">
+          </div>
+          <div class="fl"><label>Постачальник</label>
+            <select onchange="updateFormPart(${p.id},'supplier',this.value)">
+              <option value="">—</option>${supOptions}
+            </select>
+          </div>
+          <div class="fl admin-only"><label>Прих. ціна (грн)</label>
+            <input type="number" value="${p.cost||''}" min="0" placeholder="0"
+              onchange="updateFormPartPrice(${p.id},'cost',this.value)">
+          </div>
+          <div class="fl admin-only"><label>Націнка</label>
+            <div style="display:flex;gap:4px">
+              <div class="toggle-btns" style="flex-shrink:0">
+                <button class="tb ${p.markupType!=='fix'?'active':''}" onclick="updateFormPartMuType(${p.id},'pct',this)">%</button>
+                <button class="tb ${p.markupType==='fix'?'active':''}" onclick="updateFormPartMuType(${p.id},'fix',this)">грн</button>
+              </div>
+              <input type="number" value="${p.markup||''}" min="0" placeholder="0" style="flex:1"
+                onchange="updateFormPartPrice(${p.id},'markup',this.value)">
+            </div>
+          </div>
+          <div class="fl"><label>Ціна продажу (грн)</label>
+            <input type="number" value="${p.sale||''}" min="0" placeholder="0"
+              id="pedit-sale-${p.id}"
+              onchange="updateFormPart(${p.id},'sale',this.value)">
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--green2);margin-top:4px" id="pedit-margin-${p.id}">
+          ${p.cost && p.sale ? 'Маржа: ' + margin + ' грн (' + (p.sale>0?Math.round(margin/saleTotal*100):0) + '%)' : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  // Ховаємо admin-only якщо не admin
+  if (state.role !== 'admin') {
+    document.querySelectorAll('#form-parts-list .admin-only').forEach(el => el.style.display = 'none');
+  }
+}
+
+function togglePartEdit(id) {
+  const el = document.getElementById('pedit-' + id);
+  if (el) el.classList.toggle('open');
+}
+
+function updateFormPart(id, field, value) {
+  state.formParts = state.formParts.map(p => {
+    if (p.id != id) return p;
+    const updated = { ...p, [field]: field === 'qty' || field === 'sale' ? parseFloat(value)||0 : value };
+    return updated;
+  });
+  calcFormTotal();
+  // Оновлюємо тільки ціну і маржу без перемальовки всього
+  const p = state.formParts.find(p => p.id == id);
+  if (p) {
+    const saleEl = document.querySelector(`#pitem-${id} .part-item-price`);
+    if (saleEl) saleEl.textContent = Math.round(p.sale * p.qty) + ' грн';
+    updateMarginDisplay(p);
+  }
+}
+
+function updateFormPartPrice(id, field, value) {
+  state.formParts = state.formParts.map(p => {
+    if (p.id != id) return p;
+    const updated = { ...p, [field]: parseFloat(value)||0 };
+    // Перераховуємо ціну продажу
+    if (updated.cost > 0) {
+      const mu = updated.markup || 0;
+      updated.sale = updated.markupType === 'fix'
+        ? Math.round(updated.cost + mu)
+        : Math.round(updated.cost * (1 + mu / 100));
+    }
+    return updated;
+  });
+  const p = state.formParts.find(p => p.id == id);
+  if (p) {
+    const saleInput = document.getElementById('pedit-sale-' + id);
+    if (saleInput) saleInput.value = p.sale || '';
+    const saleEl = document.querySelector(`#pitem-${id} .part-item-price`);
+    if (saleEl) saleEl.textContent = Math.round(p.sale * p.qty) + ' грн';
+    updateMarginDisplay(p);
+  }
+  calcFormTotal();
+}
+
+function updateFormPartMuType(id, type, btn) {
+  // Перемикаємо active на кнопках
+  btn.closest('.toggle-btns').querySelectorAll('.tb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.formParts = state.formParts.map(p => {
+    if (p.id != id) return p;
+    const updated = { ...p, markupType: type };
+    if (updated.cost > 0 && updated.markup) {
+      updated.sale = type === 'fix'
+        ? Math.round(updated.cost + updated.markup)
+        : Math.round(updated.cost * (1 + updated.markup / 100));
+    }
+    return updated;
+  });
+  const p = state.formParts.find(p => p.id == id);
+  if (p) {
+    const saleInput = document.getElementById('pedit-sale-' + id);
+    if (saleInput) saleInput.value = p.sale || '';
+    const saleEl = document.querySelector(`#pitem-${id} .part-item-price`);
+    if (saleEl) saleEl.textContent = Math.round(p.sale * p.qty) + ' грн';
+    updateMarginDisplay(p);
+  }
+  calcFormTotal();
+}
+
+function updateMarginDisplay(p) {
+  const el = document.getElementById('pedit-margin-' + p.id);
+  if (!el) return;
+  if (p.cost && p.sale) {
+    const margin = Math.round((p.sale - p.cost) * p.qty);
+    const pct = p.sale > 0 ? Math.round((p.sale - p.cost) / p.sale * 100) : 0;
+    el.textContent = 'Маржа: ' + margin + ' грн (' + pct + '%)';
+  } else {
+    el.textContent = '';
+  }
+}
+
+function calcFormTotal() {
+  const worksTotal   = state.formWorks.reduce((s, w) => s + (w.retail || 0), 0);
+  const codingsTotal = state.formCodings.reduce((s, c) => s + (c.retail || 0), 0);
+  const partsTotal   = state.formParts.reduce((s, p) => s + p.sale * p.qty, 0);
+  document.getElementById('form-total').textContent = Math.round(worksTotal + codingsTotal + partsTotal) + ' грн';
+}
+
+async function saveRepair() {
+  const car = document.getElementById('f-car').value.trim();
+  if (!car) { toast('Введіть марку авто', 'error'); return; }
+  if (!state.formWorks.length && !state.formCodings.length && !state.formParts.length) {
+    toast('Додайте хоча б одну роботу або запчастину', 'error'); return;
+  }
+  const partsTotal = state.formParts.reduce((s, p) => s + p.sale * p.qty, 0);
+
+  const worksTotal   = state.formWorks.reduce((s, w) => s + (w.retail || 0), 0);
+  const codingsTotal = state.formCodings.reduce((s, c) => s + (c.retail || 0), 0);
+  const worksCost    = state.formWorks.reduce((s, w) => s + (w.cost || 0), 0);
+  const codingsCost  = state.formCodings.reduce((s, c) => s + (c.cost || 0), 0);
+  const grandTotal   = Math.round(worksTotal + codingsTotal + partsTotal);
+
+  const repair = {
+    id: state.editId || Date.now(),
+    car,
+    vin: document.getElementById('f-vin').value.trim(),
+    client: document.getElementById('f-client').value.trim(),
+    phone: document.getElementById('f-phone').value.trim(),
+    works: [...state.formWorks],
+    codings: [...state.formCodings],
+    parts: state.formParts,
+    date: document.getElementById('f-date').value,
+    notes: document.getElementById('f-notes').value.trim(),
+    status: document.getElementById('f-status').value,
+    worksTotal:   Math.round(worksTotal),
+    codingsTotal: Math.round(codingsTotal),
+    partsTotal:   Math.round(partsTotal),
+    worksCost:    Math.round(worksCost),
+    codingsCost:  Math.round(codingsCost),
+    total: grandTotal,
+  };
+
+  // Оптимістично додаємо/оновлюємо одразу
+  if (state.editId) {
+    state.repairs = state.repairs.map(r => r.id == state.editId ? repair : r);
+  } else {
+    state.repairs = [repair, ...state.repairs];
+  }
+  renderRepairs();
+  closeModal('repair-modal');
+  toast('Ремонт збережено', 'success');
+
+  // Зберігаємо у фоні
+  api({ action: 'saveRepair', repair }).then(res => {
+    if (!res.ok) toast(res.error || 'Помилка синхронізації', 'error');
+    else localStorage.removeItem('bg_cache_v2');
+  }).catch(() => {});
+}
+
+// ============================================================
+// PDF / SHARE
+// ============================================================
+async function sharePDF(id) {
+  const j = state.repairs.find(r => r.id == id);
+  if (!j) return;
+
+  const partsTotal = (j.parts || []).reduce((s, p) => s + p.sale * p.qty, 0);
+  const total = (j.labor || 0) + partsTotal;
+
+  // Генеруємо HTML для друку
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Exo 2',Arial,sans-serif;background:#fff;color:#111;padding:20mm;font-size:12px;line-height:1.5}
+  .header{margin-bottom:8mm}
+  .brand{font-size:22px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#111}
+  .brand-sub{font-size:10px;color:#888;letter-spacing:.05em;margin-top:2px}
+  .red-line{border:none;border-top:2px solid #cc0000;margin:4mm 0}
+  .section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin:5mm 0 3mm;color:#333}
+  .field-row{display:flex;margin-bottom:3mm}
+  .field-label{font-weight:700;min-width:35mm;color:#555;font-size:11px}
+  .field-val{color:#111;font-size:11px}
+  table{width:100%;border-collapse:collapse;margin-bottom:3mm}
+  th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;padding:2mm 0;border-bottom:1px solid #ddd}
+  td{padding:2.5mm 0;border-bottom:1px solid #f0f0f0;font-size:11px;vertical-align:middle}
+  td:last-child{text-align:right;font-weight:600}
+  .total-row{display:flex;justify-content:space-between;align-items:center;margin-top:4mm;padding-top:4mm;border-top:2px solid #cc0000}
+  .total-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .total-val{font-size:18px;font-weight:800;color:#111}
+  .sign-row{display:flex;justify-content:space-between;margin-top:14mm;font-size:11px;color:#555}
+  .sign-line{display:inline-block;width:55mm;border-bottom:1px solid #999;margin-left:3mm}
+  .mstripe{display:flex;gap:2px;margin-top:2mm}
+  .mstripe span{display:block;height:3px;width:22px;border-radius:1px}
+  @media print{
+    body{padding:15mm}
+    @page{margin:0;size:A4}
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">BimmerGarage</div>
+    <div class="brand-sub">СТО · вул. Левицького 115А, Ковель · +380 99 528 10 10 · bimmergarage.com.ua</div>
+    <div class="mstripe">
+      <span style="background:#0057b8"></span>
+      <span style="background:#cc0000"></span>
+      <span style="background:#0057b8"></span>
+    </div>
+  </div>
+  <hr class="red-line">
+
+  <div class="section-title">Наряд-замовлення</div>
+
+  <div class="field-row"><span class="field-label">Авто:</span><span class="field-val"><b>${j.car}</b>${j.vin ? ' / ' + j.vin : ''}</span></div>
+  <div class="field-row"><span class="field-label">Клієнт:</span><span class="field-val">${j.client || '—'}</span></div>
+  <div class="field-row"><span class="field-label">Телефон:</span><span class="field-val">${j.phone || '—'}</span></div>
+  <div class="field-row"><span class="field-label">Дата:</span><span class="field-val">${j.date || '—'}</span></div>
+  <div class="field-row"><span class="field-label">Статус:</span><span class="field-val">${j.status === 'done' ? '✓ Завершений' : '⏳ В роботі'}</span></div>
+
+  <div class="section-title">Виконані роботи</div>
+  <table>
+    <thead><tr><th>Опис роботи</th><th style="text-align:right">Сума</th></tr></thead>
+    <tbody>
+      <tr><td>${j.work}</td><td>${(j.labor || 0).toLocaleString()} грн</td></tr>
+    </tbody>
+  </table>
+
+  ${(j.parts && j.parts.length) ? `
+  <div class="section-title">Запчастини та матеріали</div>
+  <table>
+    <thead><tr><th>Назва</th><th>К-ть</th><th style="text-align:right">Ціна</th></tr></thead>
+    <tbody>
+      ${j.parts.map(p => `<tr>
+        <td>${p.name}</td>
+        <td>${p.qty} ${p.unit || 'шт'}</td>
+        <td>${Math.round(p.sale * p.qty).toLocaleString()} грн</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>` : ''}
+
+  <hr class="red-line">
+  <div class="total-row">
+    <span class="total-label">Разом до сплати:</span>
+    <span class="total-val">${Math.round(total).toLocaleString()} грн</span>
+  </div>
+
+  <div class="sign-row">
+    <span>Майстер: <span class="sign-line"></span></span>
+    <span>Клієнт: <span class="sign-line"></span></span>
+  </div>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) { toast('Дозвольте спливаючі вікна для цього сайту', 'error'); return; }
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => { win.print(); }, 800);
+  toast('Документ готовий до друку', 'success');
+}
+
+// ============================================================
+// STATISTICS
+// ============================================================
+function initStatDates() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  document.getElementById('stat-from').value = `${y}-${m}-01`;
+  document.getElementById('stat-to').value = now.toISOString().split('T')[0];
+}
+
+function renderStats() {
+  const from = document.getElementById('stat-from').value;
+  const to   = document.getElementById('stat-to').value;
+  const all  = state.repairs;
+  const inPeriod = all.filter(j => j.date && j.date >= from && j.date <= to);
+  const done = inPeriod.filter(j => j.status === 'done');
+
+  const laborRevenue = done.reduce((s, j) => s +
+    (j.worksTotal || 0) + (j.codingsTotal || 0), 0);
+  const laborCost    = done.reduce((s, j) => s +
+    (j.worksCost || 0) + (j.codingsCost || 0), 0);
+  const partsCost    = done.reduce((s, j) => s + (j.parts || []).reduce((a, p) => a + (parseFloat(p.cost)||0) * (parseFloat(p.qty)||1), 0), 0);
+  const partsRevenue = done.reduce((s, j) => s + (j.parts || []).reduce((a, p) => a + (parseFloat(p.sale)||0) * (parseFloat(p.qty)||1), 0), 0);
+  const totalRevenue = laborRevenue + partsRevenue;
+  const partsMargin  = partsRevenue - partsCost;
+  const laborProfit  = laborRevenue - laborCost;
+  const totalProfit  = laborProfit + partsMargin;
+  const openCount    = all.filter(j => j.status === 'open').length;
+
+  document.getElementById('kpi-row').innerHTML = `
+    <div class="kpi gray"><div class="kpi-label">Всього ремонтів</div><div class="kpi-val">${all.length}</div><div class="kpi-sub">за весь час</div></div>
+    <div class="kpi red"><div class="kpi-label">Відкриті</div><div class="kpi-val red">${openCount}</div><div class="kpi-sub">в роботі</div></div>
+    <div class="kpi blue"><div class="kpi-label">Виручка (завершені)</div><div class="kpi-val blue">${Math.round(totalRevenue).toLocaleString()}</div><div class="kpi-sub">грн за період</div></div>
+    <div class="kpi green"><div class="kpi-label">Чистий прибуток</div><div class="kpi-val green">${Math.round(totalProfit).toLocaleString()}</div><div class="kpi-sub">грн за період</div></div>
+    <div class="kpi amber"><div class="kpi-label">Маржа запчастин</div><div class="kpi-val amber">${Math.round(partsMargin).toLocaleString()}</div><div class="kpi-sub">грн за період</div></div>
+    <div class="kpi blue"><div class="kpi-label">Прибуток з робіт</div><div class="kpi-val blue">${Math.round(laborProfit).toLocaleString()}</div><div class="kpi-sub">роздрібна − собів.</div></div>`;
+
+  const wc = {};
+  inPeriod.forEach(j => {
+    [...(j.works||[]), ...(j.codings||[])].forEach(w => {
+      wc[w.name] = (wc[w.name] || 0) + 1;
+    });
+  });
+  const sw = Object.entries(wc).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const mw = sw[0] ? sw[0][1] : 1;
+  document.getElementById('stat-works').innerHTML = sw.map(([w, c]) => `
+    <div class="stat-row">
+      <span class="stat-name">${w}</span>
+      <div class="stat-track"><div class="stat-fill" style="width:${Math.round(c/mw*100)}%"></div></div>
+      <span class="stat-val">${c} шт.</span>
+    </div>`).join('') || '<div style="color:var(--text3);font-size:13px">Немає даних</div>';
+
+  const sc = {};
+  inPeriod.forEach(j => (j.parts || []).forEach(p => {
+    if (p.supplier) sc[p.supplier] = (sc[p.supplier] || 0) + (p.cost||0) * p.qty;
+  }));
+  const ss = Object.entries(sc).sort((a, b) => b[1] - a[1]);
+  const ms = ss[0] ? ss[0][1] : 1;
+  document.getElementById('stat-suppliers').innerHTML = ss.map(([s, c]) => `
+    <div class="stat-row">
+      <span class="stat-name">${s}</span>
+      <div class="stat-track"><div class="stat-fill" style="width:${Math.round(c/ms*100)}%;background:var(--green)"></div></div>
+      <span class="stat-val">${Math.round(c).toLocaleString()} грн</span>
+    </div>`).join('') || '<div style="color:var(--text3);font-size:13px">Немає даних</div>';
+
+  const wf = {};
+  done.forEach(j => {
+    [...(j.works||[]), ...(j.codings||[])].forEach(w => {
+      if (!wf[w.name]) wf[w.name] = { name: w.name, retail: 0, cost: 0, count: 0 };
+      wf[w.name].retail += w.retail || 0;
+      wf[w.name].cost   += w.cost   || 0;
+      wf[w.name].count  += 1;
+    });
+  });
+  const wfList = Object.values(wf).sort((a, b) => b.retail - a.retail);
+  document.getElementById('stat-works-finance').innerHTML = wfList.length ? `
+    <div class="pst-head"><span>Вид роботи</span><span style="text-align:right">Кіл-ть</span><span style="text-align:right">Собівартість</span><span style="text-align:right">Виручка / Прибуток</span></div>` +
+    wfList.map(w => `
+    <div class="pst-row">
+      <span>${w.name}</span>
+      <span>${w.count}</span>
+      <span>${Math.round(w.cost).toLocaleString()} грн</span>
+      <span>${Math.round(w.retail).toLocaleString()} / <b style="color:var(--green2)">${Math.round(w.retail-w.cost).toLocaleString()}</b> грн</span>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px">Немає завершених ремонтів за цей період</div>';
+
+  const pa = {};
+  inPeriod.forEach(j => (j.parts || []).forEach(p => {
+    if (!pa[p.name]) pa[p.name] = { name: p.name, unit: p.unit||'шт', qty: 0, cost: 0, sale: 0 };
+    pa[p.name].qty  += p.qty;
+    pa[p.name].cost += (p.cost||0) * p.qty;
+    pa[p.name].sale += p.sale * p.qty;
+  }));
+  const paList = Object.values(pa).sort((a, b) => b.qty - a.qty);
+  document.getElementById('stat-parts').innerHTML = paList.length ? `
+    <div class="pst-head"><span>Назва</span><span style="text-align:right">Кількість</span><span style="text-align:right">Закупівля</span><span style="text-align:right">Продаж</span></div>` +
+    paList.map(p => `
+    <div class="pst-row">
+      <span>${p.name}</span>
+      <span>${p.unit === 'шт' ? Math.round(p.qty) : p.qty.toFixed(1)} ${p.unit}</span>
+      <span>${Math.round(p.cost).toLocaleString()} грн</span>
+      <span>${Math.round(p.sale).toLocaleString()} грн</span>
+    </div>`).join('') : '<div style="color:var(--text3);font-size:13px">Немає даних за цей період</div>';
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function renderSettings() {
+  renderSuppliers();
+  renderPartsCatalog();
+  renderWorksCatalog();
+  renderCodingsCatalog();
+  if (state.role === 'admin') renderUsers();
+  document.getElementById('users-panel').style.display = state.role === 'admin' ? '' : 'none';
+}
+
+function renderSuppliers() {
+  document.getElementById('sup-list').innerHTML = state.suppliers.map(s => `
+    <div class="sp-item">
+      <span class="sp-item-name">${s.name}</span>
+      <button class="btn-d" onclick="deleteSupplier('${s.id}')">×</button>
+    </div>`).join('');
+}
+
+async function addSupplier() {
+  const name = document.getElementById('new-sup').value.trim();
+  if (!name) return;
+  showLoader();
+  const res = await api({ action: 'saveSupplier', item: { id: Date.now(), name } });
+  if (res.ok) { await loadSuppliers(); renderSuppliers(); document.getElementById('new-sup').value = ''; localStorage.removeItem('bg_cache_v2'); toast('Додано', 'success'); }
+  else toast(res.error, 'error');
+  hideLoader();
+}
+
+async function deleteSupplier(id) {
+  if (!confirm('Видалити постачальника?')) return;
+  showLoader();
+  const res = await api({ action: 'deleteSupplier', id });
+  if (res.ok) { await loadSuppliers(); renderSuppliers(); localStorage.removeItem('bg_cache_v2'); toast('Видалено', 'success'); }
+  else toast(res.error, 'error');
+  hideLoader();
+}
+
+function setPartUnit(u) {
+  state.newPartUnit = u;
+  document.querySelectorAll('.sp-add .tb').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function calcSale(cost, markup, markupType) {
+  const c = parseFloat(cost) || 0;
+  const m = parseFloat(markup) || 0;
+  return markupType === 'pct' ? Math.round(c * (1 + m / 100)) : Math.round(c + m);
+}
+
+function renderPartsCatalog() {
+  const el = document.getElementById('parts-list');
+  if (!state.parts.length) {
+    el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:8px 0">Каталог порожній</div>';
+    return;
+  }
+  el.innerHTML = state.parts.map(p => {
+    const sale = calcSale(p.cost, p.markup, p.markupType);
+    const margin = sale - (p.cost || 0);
+    const isPct = (p.markupType || 'pct') !== 'fix';
+    return `<div class="pt-row" id="prow-${p.id}">
+      <div class="pt-row-top">
+        <span class="pt-row-name">${p.name}</span>
+        <span class="pt-row-unit">${p.unit}</span>
+        <button class="btn-d" style="flex-shrink:0;padding:4px 10px" onclick="deletePart('${p.id}')">×</button>
+      </div>
+      <div id="prow-margin-${p.id}" style="font-size:12px;color:var(--green2);min-height:16px">
+        ${margin > 0 ? 'маржа: +' + margin + ' грн' : ''}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="fl">
+          <label>Прихідна ціна (грн)</label>
+          <input type="number" id="pcost-${p.id}" value="${p.cost||''}" min="0" placeholder="0"
+            oninput="recalcPartSale('${p.id}')">
+        </div>
+        <div class="fl">
+          <label>Ціна продажу (грн)</label>
+          <input type="number" id="psale-${p.id}" value="${sale||''}" min="0" placeholder="0"
+            style="color:var(--green2);font-weight:700"
+            oninput="recalcPartMargin('${p.id}')">
+        </div>
+      </div>
+      <div class="fl">
+        <label>Тип і розмір націнки</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="toggle-btns" style="flex-shrink:0">
+            <button class="tb ${isPct?'active':''}" id="pmu-pct-${p.id}"
+              onclick="switchPartMuType('${p.id}','pct',this)">%</button>
+            <button class="tb ${!isPct?'active':''}" id="pmu-fix-${p.id}"
+              onclick="switchPartMuType('${p.id}','fix',this)">грн</button>
+          </div>
+          <input type="number" id="pmarkup-${p.id}" value="${p.markup||''}" min="0"
+            placeholder="${isPct ? 'напр. 20' : 'напр. 500'}"
+            style="flex:1" oninput="recalcPartSale('${p.id}')">
+          <span style="font-size:12px;color:var(--text3)">${isPct ? '%' : 'грн'}</span>
+        </div>
+      </div>
+      <button class="btn-p sm" style="width:100%;margin-top:4px"
+        onclick="savePartFromCatalog('${p.id}')">Зберегти</button>
+    </div>`;
   }).join('');
 }
 
-function onCaptionEdit(){
-  const ta=document.getElementById('captionText');
-  ta.style.height='5px';
-  ta.style.height=(ta.scrollHeight+2)+'px';
-  generatedCaption=ta.value;
-  document.getElementById('charCount').textContent=ta.value.length+' символів';
-  document.getElementById('editHint').textContent='✏️ Можеш редагувати текст';
+function recalcPartSale(id) {
+  const cost   = parseFloat(document.getElementById('pcost-' + id)?.value) || 0;
+  const markup = parseFloat(document.getElementById('pmarkup-' + id)?.value) || 0;
+  const p      = state.parts.find(x => x.id == id);
+  const type   = p ? (p.markupType || 'pct') : 'pct';
+  const sale   = type === 'fix' ? Math.round(cost + markup) : Math.round(cost * (1 + markup / 100));
+  const saleEl = document.getElementById('psale-' + id);
+  if (saleEl && cost > 0) saleEl.value = sale;
+  updatePartMarginDisplay(id, cost, sale);
 }
 
-function showToast(msg,isError=false){
-  const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(isError?' error':'')+' show';setTimeout(()=>t.classList.remove('show'),3500);
+function recalcPartMargin(id) {
+  const cost = parseFloat(document.getElementById('pcost-' + id)?.value) || 0;
+  const sale = parseFloat(document.getElementById('psale-' + id)?.value) || 0;
+  updatePartMarginDisplay(id, cost, sale);
 }
 
-applySettings(getSettings());
+function updatePartMarginDisplay(id, cost, sale) {
+  const el = document.getElementById('prow-margin-' + id);
+  if (!el) return;
+  const margin = sale - cost;
+  el.textContent = (cost > 0 && sale > 0 && margin >= 0)
+    ? 'маржа: +' + Math.round(margin) + ' грн (' + (sale > 0 ? Math.round(margin/sale*100) : 0) + '%)'
+    : '';
+}
+
+async function savePartFromCatalog(id) {
+  const p = state.parts.find(x => String(x.id) === String(id));
+  if (!p) { toast('Помилка: товар не знайдено', 'error'); return; }
+  const cost       = parseFloat(document.getElementById('pcost-' + id)?.value) || 0;
+  const markup     = parseFloat(document.getElementById('pmarkup-' + id)?.value) || 0;
+  const sale       = parseFloat(document.getElementById('psale-' + id)?.value) || 0;
+  const markupType = p.markupType || 'pct';
+  const updated    = { ...p, cost, markup, sale, markupType };
+  state.parts = state.parts.map(x => String(x.id) === String(id) ? updated : x);
+  try {
+    const res = await api({ action: 'savePart', item: updated });
+    if (res.ok) { localStorage.removeItem('bg_cache_v2'); toast('Збережено: ' + p.name, 'success'); }
+    else toast('Помилка: ' + (res.error || 'невідома'), 'error');
+  } catch(e) { toast('Помилка зєднання', 'error'); }
+}
+
+function switchPartMuType(id, type, btn) {
+  btn.closest('.toggle-btns').querySelectorAll('.tb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.parts = state.parts.map(p => p.id == id ? { ...p, markupType: type } : p);
+  const markupInput = document.getElementById('pmarkup-' + id);
+  if (markupInput) markupInput.placeholder = type === 'pct' ? 'напр. 20' : 'напр. 500';
+  const row = document.getElementById('prow-' + id);
+  if (row) {
+    const spans = row.querySelectorAll('span');
+    spans.forEach(s => { if (s.textContent === '%' || s.textContent === 'грн') s.textContent = type === 'pct' ? '%' : 'грн'; });
+  }
+  recalcPartSale(id);
+}
+
+function savePart(item) {
+  api({ action: 'savePart', item }).then(res => {
+    if (res.ok) localStorage.removeItem('bg_cache_v2');
+  }).catch(() => {});
+}
+
+let newPartMuType = 'pct';
+function setNewPartMuType(type) {
+  newPartMuType = type;
+  document.getElementById('np-mu-pct').classList.toggle('active', type === 'pct');
+  document.getElementById('np-mu-fix').classList.toggle('active', type === 'fix');
+  previewNewPartSale();
+}
+function previewNewPartSale() {
+  const cost   = parseFloat(document.getElementById('new-part-cost').value) || 0;
+  const markup = parseFloat(document.getElementById('new-part-markup').value) || 0;
+  const sale   = calcSale(cost, markup, newPartMuType);
+  document.getElementById('new-part-sale-preview').value = sale || '';
+}
+
+async function addPart() {
+  const name   = document.getElementById('new-part-name').value.trim();
+  if (!name) { toast('Введіть назву', 'error'); return; }
+  const cost   = parseFloat(document.getElementById('new-part-cost').value) || 0;
+  const markup = parseFloat(document.getElementById('new-part-markup').value) || 0;
+  const item   = { id: Date.now(), name, unit: state.newPartUnit, cost, markup, markupType: newPartMuType };
+  showLoader();
+  const res = await api({ action: 'savePart', item });
+  if (res.ok) {
+    await loadParts(); renderPartsCatalog();
+    document.getElementById('new-part-name').value = '';
+    document.getElementById('new-part-cost').value = '';
+    document.getElementById('new-part-markup').value = '';
+    document.getElementById('new-part-sale-preview').value = '';
+    localStorage.removeItem('bg_cache_v2');
+    toast('Додано', 'success');
+  } else toast(res.error, 'error');
+  hideLoader();
+}
+
+async function deletePart(id) {
+  if (!confirm('Видалити запчастину з каталогу?')) return;
+  showLoader();
+  const res = await api({ action: 'deletePart', id });
+  if (res.ok) { await loadParts(); renderPartsCatalog(); toast('Видалено', 'success'); }
+  else toast(res.error, 'error');
+  hideLoader();
+}
+
+function renderCodingsCatalog() {
+  const el = document.getElementById('codings-list');
+  if (!el) return;
+  if (!state.codings.length) { el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:8px 0">Каталог порожній</div>'; return; }
+  el.innerHTML = state.codings.map(c => {
+    const profit = (c.retail||0) - (c.cost||0);
+    return `<div class="wt-row" id="crow-${c.id}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div>
+          <div style="font-weight:700;font-size:14px">${c.name}</div>
+          <div id="cprofit-${c.id}" style="font-size:12px;color:var(--green2);margin-top:2px">
+            ${profit > 0 ? 'прибуток: +' + profit + ' грн' : ''}
+          </div>
+        </div>
+        <button class="btn-d" style="flex-shrink:0;padding:4px 10px" onclick="deleteCoding('${c.id}')">×</button>
+      </div>
+      <div class="wt-row-fields">
+        <div class="fl"><label>Роздрібна (грн)</label>
+          <input type="number" id="cretail-${c.id}" value="${c.retail||0}" min="0"
+            oninput="updateCProfit('${c.id}')">
+        </div>
+        <div class="fl admin-only"><label>Собівартість (грн)</label>
+          <input type="number" id="ccost-${c.id}" value="${c.cost||0}" min="0"
+            oninput="updateCProfit('${c.id}')">
+        </div>
+      </div>
+      <button class="btn-p sm" style="width:100%;margin-top:4px"
+        onclick="saveCodingFromCatalog('${c.id}')">Зберегти</button>
+    </div>`;
+  }).join('');
+  if (state.role !== 'admin') {
+    document.querySelectorAll('#codings-list .admin-only').forEach(el => el.style.display='none');
+  }
+}
+
+function updateCProfit(id) {
+  const retail = parseFloat(document.getElementById('cretail-' + id)?.value) || 0;
+  const cost   = parseFloat(document.getElementById('ccost-'   + id)?.value) || 0;
+  const el = document.getElementById('cprofit-' + id);
+  if (el) { const p = retail - cost; el.textContent = p > 0 ? 'прибуток: +' + p + ' грн' : ''; }
+}
+
+async function saveCodingFromCatalog(id) {
+  const c = state.codings.find(x => x.id == id);
+  if (!c) return;
+  const retail = parseFloat(document.getElementById('cretail-' + id)?.value) || 0;
+  const cost   = parseFloat(document.getElementById('ccost-'   + id)?.value) || 0;
+  const updated = { ...c, retail, cost };
+  state.codings = state.codings.map(x => x.id == id ? updated : x);
+  const res = await api({ action: 'saveCoding', item: updated });
+  if (res.ok) { localStorage.removeItem('bg_cache_v2'); toast('Збережено: ' + c.name, 'success'); }
+  else toast('Помилка збереження', 'error');
+}
+
+async function addCoding() {
+  const name   = document.getElementById('new-coding-name').value.trim();
+  const retail = parseFloat(document.getElementById('new-coding-retail').value) || 0;
+  const cost   = parseFloat(document.getElementById('new-coding-cost').value) || 0;
+  if (!name) { toast('Введіть назву кодування', 'error'); return; }
+  showLoader();
+  const res = await api({ action: 'saveCoding', item: { id: Date.now(), name, retail, cost } });
+  if (res.ok) {
+    const r2 = await api({ action: 'initData' });
+    if (r2.ok) { applyData(r2); saveCache(r2); }
+    renderCodingsCatalog();
+    document.getElementById('new-coding-name').value = '';
+    document.getElementById('new-coding-retail').value = '';
+    document.getElementById('new-coding-cost').value = '';
+    toast('Додано', 'success');
+  } else toast(res.error, 'error');
+  hideLoader();
+}
+
+async function deleteCoding(id) {
+  if (!confirm('Видалити кодування?')) return;
+  showLoader();
+  const res = await api({ action: 'deleteCoding', id });
+  if (res.ok) {
+    state.codings = state.codings.filter(c => c.id != id);
+    renderCodingsCatalog(); localStorage.removeItem('bg_cache_v2'); toast('Видалено', 'success');
+  } else toast(res.error, 'error');
+  hideLoader();
+}
+
+function renderWorksCatalog() {
+  const el = document.getElementById('works-list');
+  if (!state.works.length) { el.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:8px 0">Каталог порожній</div>'; return; }
+  el.innerHTML = state.works.map(w => {
+    const profit = (w.retail||0) - (w.cost||0);
+    return `<div class="wt-row" id="wrow-${w.id}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div>
+          <div style="font-weight:700;font-size:14px">${w.name}</div>
+          <div id="wprofit-${w.id}" style="font-size:12px;color:var(--green2);margin-top:2px">
+            ${profit > 0 ? 'прибуток: +' + profit + ' грн' : ''}
+          </div>
+        </div>
+        <button class="btn-d" style="flex-shrink:0;padding:4px 10px" onclick="deleteWork('${w.id}')">×</button>
+      </div>
+      <div class="wt-row-fields">
+        <div class="fl">
+          <label>Роздрібна (грн)</label>
+          <input type="number" id="wretail-${w.id}" value="${w.retail||0}" min="0" placeholder="0"
+            oninput="updateWProfit('${w.id}')">
+        </div>
+        <div class="fl admin-only">
+          <label>Собівартість (грн)</label>
+          <input type="number" id="wcost-${w.id}" value="${w.cost||0}" min="0" placeholder="0"
+            oninput="updateWProfit('${w.id}')">
+        </div>
+      </div>
+      <button class="btn-p sm" style="width:100%;margin-top:4px"
+        onclick="saveWorkFromCatalog('${w.id}')">Зберегти</button>
+    </div>`;
+  }).join('');
+  if (state.role !== 'admin') {
+    document.querySelectorAll('#works-list .admin-only').forEach(el => el.style.display='none');
+  }
+}
+
+function updateWProfit(id) {
+  const retail = parseFloat(document.getElementById('wretail-' + id)?.value) || 0;
+  const cost   = parseFloat(document.getElementById('wcost-' + id)?.value) || 0;
+  const el = document.getElementById('wprofit-' + id);
+  if (el) { const profit = retail - cost; el.textContent = profit > 0 ? 'прибуток: +' + profit + ' грн' : ''; }
+}
+
+async function saveWorkFromCatalog(id) {
+  const w = state.works.find(x => x.id == id);
+  if (!w) return;
+  const retail = parseFloat(document.getElementById('wretail-' + id)?.value) || 0;
+  const cost   = parseFloat(document.getElementById('wcost-' + id)?.value) || 0;
+  const updated = { ...w, retail, cost };
+  state.works = state.works.map(x => x.id == id ? updated : x);
+  const res = await api({ action: 'saveWork', item: updated });
+  if (res.ok) { localStorage.removeItem('bg_cache_v2'); toast('Збережено: ' + w.name, 'success'); }
+  else toast('Помилка збереження', 'error');
+}
+
+async function addWork() {
+  const name   = document.getElementById('new-work-name').value.trim();
+  const retail = parseFloat(document.getElementById('new-work-retail').value) || 0;
+  const cost   = parseFloat(document.getElementById('new-work-cost').value) || 0;
+  if (!name) return;
+  showLoader();
+  const res = await api({ action: 'saveWork', item: { id: Date.now(), name, retail, cost } });
+  if (res.ok) {
+    await loadWorks(); renderWorksCatalog(); localStorage.removeItem('bg_cache_v2');
+    document.getElementById('new-work-name').value = '';
+    document.getElementById('new-work-retail').value = '';
+    document.getElementById('new-work-cost').value = '';
+    toast('Додано', 'success');
+  } else toast(res.error, 'error');
+  hideLoader();
+}
+
+async function deleteWork(id) {
+  if (!confirm('Видалити роботу з каталогу?')) return;
+  showLoader();
+  const res = await api({ action: 'deleteWork', id });
+  if (res.ok) { await loadWorks(); renderWorksCatalog(); localStorage.removeItem('bg_cache_v2'); toast('Видалено', 'success'); }
+  else toast(res.error, 'error');
+  hideLoader();
+}
+
+function renderUsers() {
+  document.getElementById('users-list').innerHTML = state.users.map(u => `
+    <div class="ut-row">
+      <span>${u.login}</span>
+      <span><span class="role-badge role-${u.role}">${roleLabel(u.role)}</span></span>
+      <span style="color:var(--text3);font-size:12px">${u.lastLogin || '—'}</span>
+      <button class="btn-d" onclick="deleteUser('${u.id}')">×</button>
+    </div>`).join('');
+}
+
+async function addUser() {
+  const login    = document.getElementById('new-user-login').value.trim();
+  const password = document.getElementById('new-user-pass').value;
+  const role     = document.getElementById('new-user-role').value;
+  if (!login || !password) { toast('Введіть логін і пароль', 'error'); return; }
+  showLoader();
+  const res = await api({ action: 'saveUser', item: { id: Date.now(), login, password, role } });
+  if (res.ok) {
+    await loadUsers(); renderUsers();
+    document.getElementById('new-user-login').value = '';
+    document.getElementById('new-user-pass').value = '';
+    toast('Користувача додано', 'success');
+  } else toast(res.error, 'error');
+  hideLoader();
+}
+
+async function deleteUser(id) {
+  if (!confirm('Видалити користувача?')) return;
+  showLoader();
+  const res = await api({ action: 'deleteUser', id });
+  if (res.ok) { await loadUsers(); renderUsers(); toast('Видалено', 'success'); }
+  else toast(res.error, 'error');
+  hideLoader();
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function showLoader()   { document.getElementById('loader').classList.add('show'); }
+function hideLoader()   { document.getElementById('loader').classList.remove('show'); }
+function showEl(id)     { document.getElementById(id).classList.remove('hidden'); }
+function hideEl(id)     { document.getElementById(id).classList.add('hidden'); }
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// Автологін якщо є токен
+if (state.token) {
+  initApp().catch(() => {
+    localStorage.removeItem('bg_token');
+    localStorage.removeItem('bg_role');
+    localStorage.removeItem('bg_login');
+  });
+}
 </script>
 </body>
 </html>
